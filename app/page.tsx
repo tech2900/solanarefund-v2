@@ -1,6 +1,6 @@
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { WalletMachine } from "@/components/WalletMachine";
+import { WalletMachineClient } from "@/components/WalletMachineClient";
 
 export default function Page() {
   return (
@@ -12,7 +12,7 @@ export default function Page() {
           <h1>Get your locked <span className="green">SOL</span> back.</h1>
           <p className="lead">Find SOL sitting unused in your wallet. Clean unused Solana accounts. Burn unwanted tokens safely later.</p>
           <div className="trust"><div className="pill">No seed phrase</div><div className="pill">No private key</div><div className="pill">No wallet import</div><div className="pill">You approve every action</div></div>
-          <WalletMachine />
+          <WalletMachineClient />
         </section>
 
         <section className="section" id="how">
