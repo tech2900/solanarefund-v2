@@ -38,16 +38,6 @@ export default function Page() {
           </div>
         </section>
 
-        <section className="section">
-          <h2>Search-friendly by design.</h2>
-          <div className="seoLangs">
-            <div className="lang"><b>English</b><br />Solana refund, reclaim SOL, recover SOL, close token accounts, wallet cleaner.</div>
-            <div className="lang" dir="rtl"><b>العربية</b><br />استرجاع SOL، تنظيف محفظة سولانا، إغلاق حسابات سولانا، حرق توكنات سولانا لاحقا.</div>
-            <div className="lang"><b>Français</b><br />Récupérer SOL, remboursement Solana, fermer comptes token Solana, nettoyer wallet Solana.</div>
-            <div className="lang"><b>Español</b><br />Recuperar SOL, reembolso Solana, cerrar cuentas token Solana, limpiar wallet Solana.</div>
-          </div>
-        </section>
-
         <section className="section" id="faq">
           <h2>FAQ</h2>
           <details open><summary>What does SolanaRefund do?</summary><p>SolanaRefund helps you recover SOL locked inside unused Solana token accounts. It scans your wallet, finds empty accounts, and helps close them safely.</p></details>
