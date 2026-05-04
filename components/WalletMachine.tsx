@@ -38,11 +38,22 @@ export function WalletMachine() {
     setStatusKind("scanning"); setMessage("Scanning wallet..."); setLastTx(null);
     try {
       const res = await fetch(`/api/scan?address=${encodeURIComponent(address)}`, { method: "GET", headers: { "Accept": "application/json" } });
-      if (!res.ok) throw new Error("Scan failed.");
-      const data = await res.json() as ScanResult;
-      setScan(data); setStatusKind("ready");
+      const data = await res.json();
+      if (!res.ok) {
+        const code: string = data?.error || "SCAN_FAILED";
+        const errorMessages: Record<string, string> = {
+          MISSING_WALLET: "Wallet address missing. Please reconnect.",
+          MISSING_HELIUS_RPC_URL: "RPC not configured on server.",
+          INVALID_RPC_URL: "RPC configuration error on server.",
+          RPC_REQUEST_FAILED: "Could not reach Solana network. Please try again.",
+        };
+        setStatusKind("error");
+        setMessage(errorMessages[code] ?? `Scan failed (${code}). Please try again.`);
+        return;
+      }
+      setScan(data as ScanResult); setStatusKind("ready");
       setMessage(data.emptyAccounts.length === 0 ? "Your wallet looks clean. No recoverable SOL found right now." : "Ready to recover from unused Solana accounts.");
-    } catch { setStatusKind("error"); setMessage("Scan failed. Please try again."); }
+    } catch { setStatusKind("error"); setMessage("Scan failed. Please check your connection and try again."); }
   }, [address, open]);
 
   const buildTransaction = useCallback(async (accounts: ScanResult["emptyAccounts"]) => {
