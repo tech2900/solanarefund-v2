@@ -1,0 +1,65 @@
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
+import { WalletMachine } from "@/components/WalletMachine";
+
+export default function Page() {
+  return (
+    <div className="wrap">
+      <Header />
+      <main>
+        <section className="hero">
+          <div className="badge">Safe Mode</div>
+          <h1>Get your locked <span className="green">SOL</span> back.</h1>
+          <p className="lead">Find SOL sitting unused in your wallet. Clean unused Solana accounts. Burn unwanted tokens safely later.</p>
+          <div className="trust"><div className="pill">No seed phrase</div><div className="pill">No private key</div><div className="pill">No wallet import</div><div className="pill">You approve every action</div></div>
+          <WalletMachine />
+        </section>
+
+        <section className="section" id="how">
+          <h2>Clean your Solana wallet in one calm flow.</h2>
+          <div className="steps"><div className="step"><span>1</span>Connect</div><div className="step"><span>2</span>Scan</div><div className="step"><span>3</span>Recover</div><div className="step"><span>4</span>Confirm</div><div className="step"><span>5</span>Done</div></div>
+        </section>
+
+        <section className="section">
+          <h2>Built to stay simple.</h2>
+          <div className="grid">
+            <div className="card"><h3>Recover SOL</h3><p>The first real version focuses only on empty Solana token accounts. Closing them can recover SOL locked inside.</p></div>
+            <div className="card"><h3>Tokens later</h3><p>Unwanted token burn will be added after Safe Mode testing. Burning is permanent and must be reviewed manually.</p></div>
+            <div className="card"><h3>NFTs later</h3><p>NFTs are not touched in this version. This keeps the first release safer and easier to understand.</p></div>
+          </div>
+        </section>
+
+        <section className="section" id="security">
+          <h2>Security first.</h2>
+          <div className="grid">
+            <div className="card"><h3>No seed phrase</h3><p>If any website asks for your seed phrase, private key, or recovery phrase, it is not us.</p></div>
+            <div className="card"><h3>Non-custodial</h3><p>SolanaRefund does not control your wallet. You approve every action from your own wallet.</p></div>
+            <div className="card"><h3>No token burn</h3><p>The Recover SOL action only closes empty token accounts. No tokens are burned.</p></div>
+          </div>
+        </section>
+
+        <section className="section">
+          <h2>Search-friendly by design.</h2>
+          <div className="seoLangs">
+            <div className="lang"><b>English</b><br />Solana refund, reclaim SOL, recover SOL, close token accounts, wallet cleaner.</div>
+            <div className="lang" dir="rtl"><b>العربية</b><br />استرجاع SOL، تنظيف محفظة سولانا، إغلاق حسابات سولانا، حرق توكنات سولانا لاحقا.</div>
+            <div className="lang"><b>Français</b><br />Récupérer SOL, remboursement Solana, fermer comptes token Solana, nettoyer wallet Solana.</div>
+            <div className="lang"><b>Español</b><br />Recuperar SOL, reembolso Solana, cerrar cuentas token Solana, limpiar wallet Solana.</div>
+          </div>
+        </section>
+
+        <section className="section" id="faq">
+          <h2>FAQ</h2>
+          <details open><summary>What does SolanaRefund do?</summary><p>SolanaRefund helps you recover SOL locked inside unused Solana token accounts. It scans your wallet, finds empty accounts, and helps close them safely.</p></details>
+          <details><summary>Is this a gas fee refund?</summary><p>No. This is not a gas-fee refund. SolanaRefund recovers SOL locked as rent inside unused Solana token accounts.</p></details>
+          <details><summary>Do you ask for my seed phrase?</summary><p>No. Never enter your seed phrase anywhere. SolanaRefund will never ask for your seed phrase, private key, or recovery phrase.</p></details>
+          <details><summary>How does SolanaRefund work?</summary><p>SolanaRefund closes unused Solana token accounts and recovers the SOL locked inside them. A small percentage is taken only from SOL successfully recovered. There is no upfront payment.</p></details>
+          <details><summary>Will tokens be burned automatically?</summary><p>No. Tokens are never burned automatically. Burning is permanent and will require manual review in a later version.</p></details>
+          <details><summary>Is SolanaRefund affiliated with Solana?</summary><p>No. SolanaRefund is an independent tool and is not affiliated with the Solana Foundation or any wallet provider.</p></details>
+          <details><summary>How do I know I am on the real website?</summary><p>Always check the domain before connecting your wallet: solanarefund.xyz. If another website asks for your seed phrase or private key, it is not SolanaRefund.</p></details>
+        </section>
+      </main>
+      <Footer />
+    </div>
+  );
+}
