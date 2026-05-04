@@ -5,16 +5,33 @@ import { JsonLd } from "@/components/JsonLd";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://solanarefund.xyz"),
-  title: "Solana Refund — Recover Locked SOL from Unused Token Accounts",
-  description: "Recover SOL locked inside unused Solana token accounts. Scan your wallet, close empty accounts, and get SOL back safely. No seed phrase. No private key.",
-  keywords: ["solana refund","reclaim SOL","recover SOL","get SOL back","claim free SOL","locked SOL","close Solana token accounts","close empty token accounts","Solana wallet cleaner","burn Solana tokens","Sol Incinerator alternative","RefundYourSOL alternative"],
+  title: "SolanaRefund — Recover Locked SOL from Unused Solana Accounts",
+  description: "Recover SOL locked in unused Solana token accounts. Connect your wallet, scan safely, review every action, and close empty accounts without sharing your seed phrase or private key.",
+  keywords: [
+    "Solana refund",
+    "recover SOL",
+    "reclaim SOL",
+    "locked SOL",
+    "unused Solana accounts",
+    "close token accounts",
+    "Solana wallet cleaner",
+    "recover rent Solana",
+    "SPL token accounts",
+    "Solana rent reclaim"
+  ],
   alternates: { canonical: "/" },
   openGraph: {
-    title: "SolanaRefund.xyz — Get your locked SOL back",
-    description: "Clean unused Solana accounts. Recover locked SOL safely. No seed phrase. No private key.",
+    title: "SolanaRefund — Recover Locked SOL",
+    description: "Scan your Solana wallet for unused token accounts and recover locked SOL safely. No seed phrase. No private key. You approve every action.",
     url: "https://solanarefund.xyz",
     siteName: "SolanaRefund",
-    type: "website"
+    type: "website",
+    locale: "en_US"
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "SolanaRefund — Recover Locked SOL",
+    description: "Recover SOL locked in unused Solana token accounts. Connect, scan, review, and approve every action safely."
   },
   robots: { index: true, follow: true }
 };
