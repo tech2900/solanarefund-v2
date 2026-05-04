@@ -40,13 +40,17 @@ export default function Page() {
 
         <section className="section" id="faq">
           <h2>FAQ</h2>
-          <details open><summary>What does SolanaRefund do?</summary><p>SolanaRefund helps you recover SOL locked inside unused Solana token accounts. It scans your wallet, finds empty accounts, and helps close them safely.</p></details>
+          <p className="lead" style={{ textAlign: "left", fontSize: 16, marginBottom: 20 }}>SolanaRefund is built for simple wallet cleanup on Solana. It helps you find unused token accounts, understand what can be closed, and review every action before anything is signed in your wallet.</p>
+          <details open><summary>What does SolanaRefund do?</summary><p>SolanaRefund scans your Solana wallet for unused token accounts and helps you recover SOL locked as rent by closing empty accounts safely.</p></details>
           <details><summary>Is this a gas fee refund?</summary><p>No. This is not a gas-fee refund. SolanaRefund recovers SOL locked as rent inside unused Solana token accounts.</p></details>
-          <details><summary>Do you ask for my seed phrase?</summary><p>No. Never enter your seed phrase anywhere. SolanaRefund will never ask for your seed phrase, private key, or recovery phrase.</p></details>
+          <details><summary>Do you ask for my seed phrase?</summary><p>No. SolanaRefund never asks for your seed phrase or private key. You connect your wallet and approve every action yourself.</p></details>
+          <details><summary>Can SolanaRefund recover stolen SOL?</summary><p>No. SolanaRefund does not recover stolen funds. It only helps identify and close unused token accounts that may contain recoverable rent-exempt SOL.</p></details>
+          <details><summary>Why is SOL locked in token accounts?</summary><p>On Solana, token accounts often require a small amount of SOL as rent-exempt balance. If an account is empty and unused, it may be possible to close it and recover that SOL.</p></details>
+          <details><summary>Is every wallet eligible?</summary><p>No. Some wallets may have no unused accounts to close. The scanner only shows recoverable opportunities when they are found.</p></details>
           <details><summary>How does SolanaRefund work?</summary><p>SolanaRefund closes unused Solana token accounts and recovers the SOL locked inside them. A small percentage is taken only from SOL successfully recovered. There is no upfront payment.</p></details>
           <details><summary>Will tokens be burned automatically?</summary><p>No. Tokens are never burned automatically. Burning is permanent and will require manual review in a later version.</p></details>
           <details><summary>Is SolanaRefund affiliated with Solana?</summary><p>No. SolanaRefund is an independent tool and is not affiliated with the Solana Foundation or any wallet provider.</p></details>
-          <details><summary>How do I know I am on the real website?</summary><p>Always check the domain before connecting your wallet: solanarefund.xyz. If another website asks for your seed phrase or private key, it is not SolanaRefund.</p></details>
+          <details><summary>How do I know I am on the real website?</summary><p>Always check the domain before connecting your wallet: solanarefund.xyz. SolanaRefund will never ask for your seed phrase or private key.</p></details>
         </section>
       </main>
       <Footer />
