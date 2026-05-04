@@ -1,6 +1,6 @@
 "use client";
 import { useCallback, useMemo, useState } from "react";
-import { useAppKit, useAppKitAccount, useAppKitProvider } from "@reown/appkit/react";
+import { useAppKit, useAppKitAccount, useAppKitProvider, useDisconnect } from "@reown/appkit/react";
 import { useAppKitConnection, type Provider } from "@reown/appkit-adapter-solana/react";
 import { PublicKey, SystemProgram, Transaction } from "@solana/web3.js";
 import { TOKEN_2022_PROGRAM_ID, TOKEN_PROGRAM_ID, createCloseAccountInstruction } from "@solana/spl-token";
@@ -14,6 +14,7 @@ type StatusKind = "idle" | "scanning" | "ready" | "recovering" | "done" | "error
 
 export function WalletMachine() {
   const { open } = useAppKit();
+  const { disconnect } = useDisconnect();
   const { address, isConnected } = useAppKitAccount();
   const { walletProvider } = useAppKitProvider<Provider>("solana");
   const { connection } = useAppKitConnection();
@@ -98,7 +99,7 @@ export function WalletMachine() {
     <div className="machine" id="app">
       <div className="machineTop"><div className="machineTitle">Wallet scanner</div><div className="walletStatus">{walletText}</div></div>
       <div className="actionGrid">
-        <button className="btn primary" onClick={() => open({ view: "Connect" })}>Connect Wallet</button>
+        <button className="btn primary" onClick={() => isConnected ? disconnect() : open({ view: "Connect" })}>{isConnected ? "Disconnect Wallet" : "Connect Wallet"}</button>
         <button className="btn secondary" onClick={scanWallet} disabled={!isConnected || statusKind === "scanning"}>Scan Wallet</button>
       </div>
       {message && <div className="status">{message}</div>}
