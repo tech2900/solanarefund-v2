@@ -19,7 +19,7 @@ export function WalletMachine() {
   const { connection } = useAppKitConnection();
 
   const [statusKind, setStatusKind] = useState<StatusKind>("idle");
-  const [message, setMessage] = useState("Connect your wallet to start.");
+  const [message, setMessage] = useState("");
   const [scan, setScan] = useState<ScanResult | null>(null);
   const [lastTx, setLastTx] = useState<string | null>(null);
 
@@ -101,7 +101,7 @@ export function WalletMachine() {
         <button className="btn primary" onClick={() => open({ view: "Connect" })}>Connect Wallet</button>
         <button className="btn secondary" onClick={scanWallet} disabled={!isConnected || statusKind === "scanning"}>Scan Wallet</button>
       </div>
-      <div className="status">{message}</div>
+      {message && <div className="status">{message}</div>}
       {scan && (
         <div className="result">
           <div className="small">SOL found</div>
