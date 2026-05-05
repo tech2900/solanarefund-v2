@@ -1,6 +1,6 @@
 "use client";
 import { useCallback, useMemo, useState } from "react";
-import { useAppKit, useAppKitAccount, useAppKitProvider, useDisconnect } from "@reown/appkit/react";
+import { useAppKit, useAppKitAccount, useAppKitProvider } from "@reown/appkit/react";
 import { useAppKitConnection, type Provider } from "@reown/appkit-adapter-solana/react";
 import { PublicKey, SystemProgram, Transaction } from "@solana/web3.js";
 import { TOKEN_2022_PROGRAM_ID, TOKEN_PROGRAM_ID, createCloseAccountInstruction } from "@solana/spl-token";
@@ -14,7 +14,6 @@ type StatusKind = "idle" | "scanning" | "ready" | "recovering" | "done" | "error
 
 export function WalletMachine() {
   const { open } = useAppKit();
-  const { disconnect } = useDisconnect();
   const { address, isConnected } = useAppKitAccount();
   const { walletProvider } = useAppKitProvider<Provider>("solana");
   const { connection } = useAppKitConnection();
@@ -29,7 +28,7 @@ export function WalletMachine() {
   const canRecover = Boolean(isConnected && scan && scan.emptyAccounts.length > 0 && statusKind !== "recovering");
 
   const walletText = useMemo(() => {
-    if (!isConnected || !address) return "Not connected";
+    if (!isConnected || !address) return "";
     return `Connected · ${shortAddress(address)}`;
   }, [isConnected, address]);
 
@@ -38,22 +37,11 @@ export function WalletMachine() {
     setStatusKind("scanning"); setMessage("Scanning wallet..."); setLastTx(null);
     try {
       const res = await fetch(`/api/scan?address=${encodeURIComponent(address)}`, { method: "GET", headers: { "Accept": "application/json" } });
-      const data = await res.json();
-      if (!res.ok) {
-        const code: string = data?.error || "SCAN_FAILED";
-        const errorMessages: Record<string, string> = {
-          MISSING_WALLET: "Wallet address missing. Please reconnect.",
-          MISSING_HELIUS_RPC_URL: "RPC not configured on server.",
-          INVALID_RPC_URL: "RPC configuration error on server.",
-          RPC_REQUEST_FAILED: "Could not reach Solana network. Please try again.",
-        };
-        setStatusKind("error");
-        setMessage(errorMessages[code] ?? `Scan failed (${code}). Please try again.`);
-        return;
-      }
-      setScan(data as ScanResult); setStatusKind("ready");
-      setMessage(data.emptyAccounts.length === 0 ? "Your wallet looks clean. No recoverable SOL found right now." : "Ready to recover from unused Solana accounts.");
-    } catch { setStatusKind("error"); setMessage("Scan failed. Please check your connection and try again."); }
+      if (!res.ok) throw new Error("Scan failed.");
+      const data = await res.json() as ScanResult;
+      setScan(data); setStatusKind("ready");
+      setMessage(data.emptyAccounts.length === 0 ? "Your wallet looks clean. No recoverable SOL found." : "");
+    } catch { setStatusKind("error"); setMessage("Scan failed. Please try again."); }
   }, [address, open]);
 
   const buildTransaction = useCallback(async (accounts: ScanResult["emptyAccounts"]) => {
@@ -63,7 +51,7 @@ export function WalletMachine() {
     let reclaimLamports = 0;
 
     for (const account of accounts) {
-      if (account.amount !== "0") throw new Error("Only empty token accounts can be closed in Safe Mode.");
+      if (account.amount !== "0") throw new Error("Only empty token accounts can be closed.");
       const programId = account.programId === TOKEN_2022_PROGRAM_ID.toBase58() ? TOKEN_2022_PROGRAM_ID : TOKEN_PROGRAM_ID;
       tx.add(createCloseAccountInstruction(new PublicKey(account.pubkey), owner, owner, [], programId));
       reclaimLamports += account.lamports;
@@ -85,11 +73,11 @@ export function WalletMachine() {
     const batches = splitIntoBatches(scan.emptyAccounts, MAX_BATCH_SIZE);
     if (batches.length === 0) { setMessage("No empty accounts to close."); return; }
     setStatusKind("recovering");
-    setMessage("You are about to recover SOL from unused accounts. No tokens will be burned.");
+    setMessage("Confirm in your wallet...");
     try {
       let lastSignature = "";
-      for (let i=0;i<batches.length;i++) {
-        setMessage(`Confirm in wallet. Batch ${i+1} of ${batches.length}.`);
+      for (let i = 0; i < batches.length; i++) {
+        setMessage(`Confirm in wallet · Batch ${i + 1} of ${batches.length}`);
         const tx = await buildTransaction(batches[i]);
         const result = await walletProvider.signAndSendTransaction(tx);
         const signature = typeof result === "string" ? result : (result as { signature?: string })?.signature || String(result);
@@ -98,43 +86,121 @@ export function WalletMachine() {
       }
       setLastTx(lastSignature);
       setStatusKind("done");
-      setMessage("Done. Your wallet cleanup completed.");
+      setMessage("");
       await scanWallet();
     } catch {
       setStatusKind("error");
-      setMessage("Recovery was cancelled or failed. Nothing was completed without your wallet approval.");
+      setMessage("Recovery cancelled or failed. Nothing was completed.");
     }
   }, [address, buildTransaction, connection, scan, scanWallet, walletProvider]);
 
+  // Determine which state to render (progressive disclosure)
+  const showInitial = !isConnected;
+  const showConnected = isConnected && !scan && statusKind !== "scanning";
+  const showScanning = isConnected && statusKind === "scanning";
+  const showResult = isConnected && scan;
+
   return (
-    <div className="machine" id="app">
-      <div className="machineTop"><div className="machineTitle">Wallet scanner</div><div className="walletStatus">{walletText}</div></div>
-      <div className="actionGrid">
-        <button className="btn primary" onClick={() => isConnected ? disconnect() : open({ view: "Connect" })}>{isConnected ? "Disconnect Wallet" : "Connect Wallet"}</button>
-        <button className="btn secondary" onClick={scanWallet} disabled={!isConnected || statusKind === "scanning"}>Scan Wallet</button>
-      </div>
-      {message && <div className="status">{message}</div>}
-      {scan && (
-        <div className="result">
-          <div className="small">SOL found</div>
-          <div className="big">{readySol} SOL</div>
-          <div className="stats">
-            <div className="stat"><b>{scan.emptyAccounts.length}</b><span>Empty accounts</span></div>
-            <div className="stat"><b>{scan.nonEmptyTokenAccounts}</b><span>Tokens later</span></div>
-            <div className="stat"><b>0</b><span>NFTs touched</span></div>
+    <div id="app">
+      {/* Connection status pill (when connected) */}
+      {isConnected && (
+        <div style={{ textAlign: "center" }}>
+          <div className="connectionStatus">
+            <span className="dot"></span>
+            {walletText}
           </div>
-          <div className="notice">Recover SOL only closes empty token accounts. No tokens will be burned in this action.</div>
-          <div className="actionGrid" style={{ marginTop: 14 }}>
-            <button className="btn primary" onClick={recoverSol} disabled={!canRecover}>Recover SOL</button>
-            <a className="btn ghost" href="#faq">Review</a>
-          </div>
-          <div className="reviewPanel">
-            <div className="reviewRow"><span>Action</span><b>Close {scan.emptyAccounts.length} empty accounts</b></div>
-            <div className="reviewRow"><span>Tokens burned</span><b>None</b></div>
-            <div className="reviewRow"><span>Mode</span><b>Safe Mode</b></div>
-          </div>
-          {lastTx && <div className="notice">Last transaction: <a href={`https://solscan.io/tx/${lastTx}`} target="_blank" rel="noreferrer">View on Solscan</a></div>}
         </div>
+      )}
+
+      {/* STATE 1: INITIAL — Connect button only */}
+      {showInitial && (
+        <div className="actionZone">
+          <div className="stepIndicator">
+            <span className="num">01</span><span className="slash">/</span>Connect your wallet
+          </div>
+          <button className="btn btnPrimary" onClick={() => open({ view: "Connect" })}>
+            Connect Wallet
+          </button>
+          <div className="reassurance">SolanaRefund will never ask for your seed phrase.</div>
+        </div>
+      )}
+
+      {/* STATE 2: CONNECTED — Scan button */}
+      {showConnected && (
+        <div className="actionZone">
+          <div className="stepIndicator">
+            <span className="num">02</span><span className="slash">/</span>Scan for recoverable SOL
+          </div>
+          <button className="btn btnPrimary" onClick={scanWallet}>
+            Start Scan
+          </button>
+          <div className="reassurance">Read-only scan. Nothing is signed yet.</div>
+          {statusKind === "error" && message && <div className="notice">{message}</div>}
+        </div>
+      )}
+
+      {/* STATE 2b: SCANNING — show loading */}
+      {showScanning && (
+        <div className="actionZone">
+          <div className="stepIndicator">
+            <span className="num">02</span><span className="slash">/</span>Scanning...
+          </div>
+          <button className="btn btnPrimary" disabled>
+            Scanning wallet...
+          </button>
+          <div className="reassurance">Reading your token accounts on-chain.</div>
+        </div>
+      )}
+
+      {/* STATE 3: SCANNED — Result + Reclaim */}
+      {showResult && (
+        <>
+          {scan.emptyAccounts.length > 0 ? (
+            <>
+              <div className="scanResult">
+                <div className="scanLabel">Recoverable</div>
+                <div className="scanAmount">{readySol}</div>
+                <div className="scanAmountUnit">SOL</div>
+                <div className="scanContext">from {scan.emptyAccounts.length} unused account{scan.emptyAccounts.length === 1 ? "" : "s"}</div>
+              </div>
+
+              <div className="actionZone">
+                <div className="stepIndicator">
+                  <span className="num">03</span><span className="slash">/</span>Recover your SOL
+                </div>
+                <button className="btn btnRecover" onClick={recoverSol} disabled={!canRecover}>
+                  {statusKind === "recovering" ? "Recovering..." : "Reclaim SOL"}
+                </button>
+                <div className="reassurance">Your wallet will show all transaction details before approval.</div>
+
+                {(statusKind === "recovering" || statusKind === "error") && message && (
+                  <div className="notice">{message}</div>
+                )}
+
+                {statusKind === "done" && lastTx && (
+                  <div className="notice">
+                    <div style={{ marginBottom: 8 }}>Recovery complete.</div>
+                    <a className="txLink" href={`https://solscan.io/tx/${lastTx}`} target="_blank" rel="noreferrer">
+                      View on Solscan ↗
+                    </a>
+                  </div>
+                )}
+              </div>
+            </>
+          ) : (
+            <div className="actionZone">
+              <div className="stepIndicator">
+                <span className="num">✓</span><span className="slash">/</span>All clean
+              </div>
+              <div className="notice">
+                Your wallet looks clean. No recoverable SOL found right now.
+              </div>
+              <button className="btn btnPrimary" onClick={scanWallet} style={{ marginTop: 16 }}>
+                Scan again
+              </button>
+            </div>
+          )}
+        </>
       )}
     </div>
   );
