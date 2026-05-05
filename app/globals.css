@@ -590,3 +590,40 @@ details p {
   .header { padding: 16px 0; }
   .card { padding: 20px; }
 }
+/* ============================================
+   PATCH: Add btnSecondary class to globals.css
+   ============================================
+   
+   This is a PATCH file — Replit Agent should APPEND
+   the CSS below to the existing app/globals.css file
+   (do NOT replace the whole file, just append at the end).
+   
+   The btnSecondary class is for the "Disconnect Wallet" button:
+   - Transparent background
+   - Subtle gray border  
+   - Muted text color
+   - Smooth hover transition
+   - Visually secondary to btnPrimary (purple)
+*/
+
+.btnSecondary {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  box-shadow: none;
+}
+
+.btnSecondary:hover:not(:disabled) {
+  border-color: var(--text-muted);
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.btnSecondary:active:not(:disabled) {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.btnSecondary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
