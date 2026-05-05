@@ -1,1 +1,592 @@
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 52% -8%,rgba(153,69,255,.22),transparent 34%),radial-gradient(circle at 18% 8%,rgba(20,241,149,.10),transparent 26%),#07080d;color:#fff;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}a{color:inherit;text-decoration:none}button{font-family:inherit;-webkit-tap-highlight-color:transparent}.wrap{width:min(1080px,100%);margin:0 auto;padding:18px}.header{display:flex;align-items:center;justify-content:space-between;padding:16px 0}.logo{font-size:20px;font-weight:950;letter-spacing:-.04em}.logo span{color:#14f195}.nav{display:flex;gap:8px}.nav a{font-size:13px;color:rgba(255,255,255,.70);border:1px solid rgba(255,255,255,.11);background:rgba(255,255,255,.04);border-radius:999px;padding:8px 12px}.hero{text-align:center;padding:56px 0 30px}.badge{display:inline-flex;color:#14f195;border:1px solid rgba(20,241,149,.30);background:rgba(20,241,149,.08);padding:8px 14px;border-radius:999px;font-size:13px;font-weight:900}h1{margin:20px auto 14px;max-width:840px;font-size:clamp(42px,8.5vw,82px);line-height:.96;letter-spacing:-.075em}h2{font-size:clamp(28px,5vw,40px);line-height:1.05;letter-spacing:-.05em;margin:0 0 14px}h3{margin:0 0 8px}.green{color:#14f195}.lead{max-width:720px;margin:0 auto;color:rgba(255,255,255,.66);line-height:1.62;font-size:18px}.trust{margin:20px auto 0;max-width:760px;display:flex;flex-wrap:wrap;justify-content:center;gap:8px}.pill{border:1px solid rgba(255,255,255,.11);background:rgba(255,255,255,.045);color:rgba(255,255,255,.74);padding:9px 12px;border-radius:999px;font-size:13px;font-weight:800}.machine{margin:30px auto 0;max-width:790px;border:1px solid rgba(255,255,255,.11);background:rgba(16,18,27,.88);border-radius:32px;padding:18px;box-shadow:0 24px 90px rgba(0,0,0,.30);text-align:left}.machineTop{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:14px}.machineTitle{font-weight:950}.walletStatus{color:rgba(255,255,255,.58);font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:360px}.actionGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.btn{border:0;min-height:54px;border-radius:18px;padding:15px 18px;cursor:pointer;font-weight:950;font-size:15px;display:inline-flex;align-items:center;justify-content:center}.btn:disabled{opacity:.48;cursor:not-allowed}.primary{background:linear-gradient(90deg,#14f195,#9945ff);color:#05060a}.secondary{background:rgba(255,255,255,.075);border:1px solid rgba(255,255,255,.11);color:#fff}.ghost{background:transparent;border:1px solid rgba(255,255,255,.11);color:rgba(255,255,255,.76)}.status{margin-top:14px;border:1px solid rgba(255,255,255,.11);background:rgba(255,255,255,.045);color:rgba(255,255,255,.76);border-radius:20px;padding:14px;font-size:14px;line-height:1.5}.result{margin-top:16px;border:1px solid rgba(20,241,149,.20);background:rgba(20,241,149,.06);border-radius:28px;padding:22px;text-align:center}.small{font-size:12px;color:rgba(255,255,255,.56)}.big{font-size:clamp(42px,9vw,74px);font-weight:1000;letter-spacing:-.055em;color:#14f195;margin:2px 0 10px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}.stat{border:1px solid rgba(255,255,255,.11);background:rgba(0,0,0,.17);border-radius:18px;padding:13px}.stat b{display:block;font-size:24px}.stat span{font-size:12px;color:rgba(255,255,255,.55)}.notice{margin-top:14px;border:1px solid rgba(255,209,102,.22);background:rgba(255,209,102,.07);color:#ffe3a3;border-radius:18px;padding:12px;font-size:13px;line-height:1.5;text-align:left}.reviewPanel{margin-top:14px;border:1px solid rgba(255,255,255,.11);background:rgba(255,255,255,.04);border-radius:24px;padding:16px}.reviewRow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.06)}.reviewRow:last-child{border-bottom:0}.reviewRow span{color:rgba(255,255,255,.58);font-size:13px}.reviewRow b{font-size:14px}.section{padding:34px 0}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.card{border:1px solid rgba(255,255,255,.11);background:rgba(255,255,255,.045);border-radius:24px;padding:20px;min-height:132px}.card p{color:rgba(255,255,255,.66);line-height:1.58;font-size:14px;margin:0}.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}.step{border:1px solid rgba(255,255,255,.11);background:rgba(255,255,255,.04);border-radius:20px;padding:16px 10px;text-align:center;font-weight:950}.step span{display:block;color:#14f195;font-size:13px;margin-bottom:6px}.seoLangs{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.lang{border:1px solid rgba(255,255,255,.11);border-radius:20px;padding:14px;background:rgba(255,255,255,.04);color:rgba(255,255,255,.66);line-height:1.55;font-size:13px}.lang b{color:#fff}details{border:1px solid rgba(255,255,255,.11);background:rgba(255,255,255,.04);border-radius:18px;padding:16px;margin-top:10px}summary{font-weight:950;cursor:pointer}details p{color:rgba(255,255,255,.66);line-height:1.58}.footer{border-top:1px solid rgba(255,255,255,.11);padding:28px 0 52px;color:rgba(255,255,255,.50);line-height:1.7;font-size:13px}.footerGrid{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap}@media(max-width:760px){.wrap{padding:18px}.nav a:first-child{display:none}.actionGrid,.grid,.steps,.seoLangs{grid-template-columns:1fr}.stats{grid-template-columns:repeat(3,1fr)}.machine{border-radius:24px;padding:14px}.machineTop{align-items:flex-start;flex-direction:column}.walletStatus{max-width:100%}h1{letter-spacing:-.06em}}
+/* ============================================
+   SolanaRefund — Luxury Mono Redesign
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+* { box-sizing: border-box; }
+
+:root {
+  --bg: #0A0A0A;
+  --bg-elevated: #111111;
+  --text: #E5E5E5;
+  --text-muted: #737373;
+  --text-faded: #525252;
+  --border: #1F1F1F;
+  --border-soft: #161616;
+  --purple: #9945FF;
+  --purple-soft: rgba(153, 69, 255, 0.08);
+  --purple-border: rgba(153, 69, 255, 0.25);
+  --green: #14F195;
+  --green-soft: rgba(20, 241, 149, 0.06);
+  --green-border: rgba(20, 241, 149, 0.20);
+  --gold: #D4B36A;
+  --gold-soft: rgba(212, 179, 106, 0.04);
+  --gold-border: rgba(212, 179, 106, 0.20);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Monaco, monospace;
+  font-size: 14px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(153, 69, 255, 0.05) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ============================================
+   Layout
+   ============================================ */
+.wrap {
+  width: min(720px, 100%);
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ============================================
+   Header
+   ============================================ */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logoMark {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.logoText {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.logoDot {
+  color: var(--purple);
+  margin: 0 1px;
+}
+
+.nav {
+  display: flex;
+  gap: 18px;
+}
+
+.nav a {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+  transition: color 0.2s ease;
+}
+
+.nav a:hover {
+  color: var(--text);
+}
+
+/* ============================================
+   Hero
+   ============================================ */
+.hero {
+  padding: 64px 0 48px;
+  text-align: center;
+}
+
+h1 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(36px, 9vw, 48px);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+  color: var(--text);
+  margin: 0 0 20px;
+}
+
+h1 .accent {
+  color: var(--purple);
+}
+
+.lead {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  max-width: 380px;
+  margin: 0 auto 28px;
+}
+
+.trust {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text-faded);
+  letter-spacing: 0.02em;
+  margin-bottom: 48px;
+}
+
+.trust .dot {
+  color: var(--border);
+  margin: 0 8px;
+}
+
+/* ============================================
+   Action zone (Connect, Scan, Reclaim)
+   ============================================ */
+.actionZone {
+  margin: 0 auto 48px;
+  max-width: 360px;
+}
+
+.stepIndicator {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text-faded);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+  text-align: center;
+}
+
+.stepIndicator .num {
+  color: var(--text-muted);
+}
+
+.stepIndicator .slash {
+  margin: 0 6px;
+  color: var(--border);
+}
+
+.btn {
+  width: 100%;
+  height: 56px;
+  border: none;
+  border-radius: 12px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+}
+
+.btnPrimary {
+  background: var(--purple);
+  color: white;
+  box-shadow:
+    0 0 0 1px rgba(153, 69, 255, 0.3),
+    0 8px 24px rgba(153, 69, 255, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.btnPrimary:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow:
+    0 0 0 1px rgba(153, 69, 255, 0.4),
+    0 12px 32px rgba(153, 69, 255, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.btnPrimary:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btnPrimary:disabled {
+  background: var(--purple-soft);
+  color: var(--text-faded);
+  box-shadow: 0 0 0 1px var(--border);
+}
+
+.btnRecover {
+  background: linear-gradient(180deg, #14F195 0%, #0FD884 100%);
+  color: #0A0A0A;
+  font-weight: 600;
+  box-shadow:
+    0 0 0 1px rgba(20, 241, 149, 0.3),
+    0 8px 24px rgba(20, 241, 149, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.btnRecover:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow:
+    0 0 0 1px rgba(20, 241, 149, 0.4),
+    0 12px 32px rgba(20, 241, 149, 0.3);
+}
+
+.btnRecover:disabled {
+  background: var(--green-soft);
+  color: var(--text-faded);
+  box-shadow: 0 0 0 1px var(--border);
+}
+
+.reassurance {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text-faded);
+  text-align: center;
+  margin-top: 14px;
+  line-height: 1.5;
+}
+
+/* ============================================
+   Connection status pill
+   ============================================ */
+.connectionStatus {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.02);
+  padding: 8px 14px;
+  border-radius: 100px;
+  margin: 0 auto 24px;
+}
+
+.connectionStatus .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 8px rgba(20, 241, 149, 0.6);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* ============================================
+   Scan result (after scan)
+   ============================================ */
+.scanResult {
+  text-align: center;
+  padding: 24px 0 32px;
+}
+
+.scanLabel {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text-faded);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.scanAmount {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(64px, 18vw, 88px);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--green);
+  margin-bottom: 8px;
+}
+
+.scanAmountUnit {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+  margin-bottom: 14px;
+}
+
+.scanContext {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 36px;
+}
+
+.txLink {
+  display: inline-block;
+  margin-top: 16px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--purple);
+  text-decoration: none;
+  border-bottom: 1px solid var(--purple-border);
+  padding-bottom: 1px;
+  transition: opacity 0.2s;
+}
+
+.txLink:hover { opacity: 0.7; }
+
+/* ============================================
+   Section
+   ============================================ */
+.section {
+  padding: 64px 0;
+  border-top: 1px solid var(--border-soft);
+}
+
+.sectionLabel {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text-faded);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+h2 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin: 0 0 32px;
+}
+
+/* ============================================
+   Steps (How it works)
+   ============================================ */
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.step {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.step:last-child { border-bottom: none; }
+
+.stepNum {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--text-faded);
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+  width: 32px;
+}
+
+.stepName {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text);
+  margin-right: auto;
+}
+
+.stepDesc {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--text-faded);
+}
+
+/* ============================================
+   Cards (Built simple, Security)
+   ============================================ */
+.cards {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: var(--border-soft);
+  border: 1px solid var(--border-soft);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.card {
+  background: var(--bg);
+  padding: 24px;
+}
+
+.cardLabel {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--text-faded);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.cardTitle {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--text);
+  margin: 0 0 6px;
+}
+
+.cardDesc {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* ============================================
+   FAQ
+   ============================================ */
+details {
+  border-bottom: 1px solid var(--border-soft);
+  padding: 18px 0;
+}
+
+details:first-of-type {
+  border-top: 1px solid var(--border-soft);
+}
+
+summary {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+summary::-webkit-details-marker { display: none; }
+
+summary::after {
+  content: '+';
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--text-muted);
+  font-weight: 400;
+  font-size: 18px;
+  transition: transform 0.2s;
+}
+
+details[open] summary::after {
+  content: '−';
+}
+
+details p {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin: 12px 0 0;
+}
+
+/* ============================================
+   Notice / status messages
+   ============================================ */
+.notice {
+  margin-top: 20px;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.015);
+  border-radius: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.55;
+  text-align: center;
+}
+
+/* ============================================
+   Footer
+   ============================================ */
+.footer {
+  padding: 48px 0 64px;
+  border-top: 1px solid var(--border-soft);
+  margin-top: 64px;
+}
+
+.footerBrand {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.footerTagline {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+  line-height: 1.6;
+}
+
+.footerMeta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text-faded);
+  line-height: 1.7;
+}
+
+.footerMeta a {
+  color: var(--text-muted);
+}
+
+/* ============================================
+   Responsive
+   ============================================ */
+@media (max-width: 480px) {
+  .wrap { padding: 0 16px; }
+  .hero { padding: 48px 0 36px; }
+  .section { padding: 48px 0; }
+  .nav { gap: 14px; }
+  .nav a { font-size: 11px; }
+  .header { padding: 16px 0; }
+  .card { padding: 20px; }
+}
