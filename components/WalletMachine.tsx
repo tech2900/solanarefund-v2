@@ -1,6 +1,6 @@
 "use client";
 import { useCallback, useMemo, useState } from "react";
-import { useAppKit, useAppKitAccount, useAppKitProvider } from "@reown/appkit/react";
+import { useAppKit, useAppKitAccount, useAppKitProvider, useDisconnect } from "@reown/appkit/react";
 import { useAppKitConnection, type Provider } from "@reown/appkit-adapter-solana/react";
 import { PublicKey, SystemProgram, Transaction } from "@solana/web3.js";
 import { TOKEN_2022_PROGRAM_ID, TOKEN_PROGRAM_ID, createCloseAccountInstruction } from "@solana/spl-token";
@@ -17,11 +17,13 @@ export function WalletMachine() {
   const { address, isConnected } = useAppKitAccount();
   const { walletProvider } = useAppKitProvider<Provider>("solana");
   const { connection } = useAppKitConnection();
+  const { disconnect } = useDisconnect();
 
   const [statusKind, setStatusKind] = useState<StatusKind>("idle");
   const [message, setMessage] = useState("");
   const [scan, setScan] = useState<ScanResult | null>(null);
   const [lastTx, setLastTx] = useState<string | null>(null);
+  const [isDisconnecting, setIsDisconnecting] = useState(false);
 
   const readyLamports = scan?.recoverableLamports || 0;
   const readySol = solText(readyLamports);
@@ -31,6 +33,22 @@ export function WalletMachine() {
     if (!isConnected || !address) return "";
     return `Connected · ${shortAddress(address)}`;
   }, [isConnected, address]);
+
+  const handleDisconnect = useCallback(async () => {
+    setIsDisconnecting(true);
+    try {
+      await disconnect();
+      // Reset all state after disconnect
+      setScan(null);
+      setStatusKind("idle");
+      setMessage("");
+      setLastTx(null);
+    } catch (e) {
+      // Silent fail - user can retry
+    } finally {
+      setIsDisconnecting(false);
+    }
+  }, [disconnect]);
 
   const scanWallet = useCallback(async () => {
     if (!address) { await open({ view: "Connect" }); return; }
@@ -100,6 +118,18 @@ export function WalletMachine() {
   const showScanning = isConnected && statusKind === "scanning";
   const showResult = isConnected && scan;
 
+  // Disconnect button — shown whenever wallet is connected
+  const DisconnectButton = () => (
+    <button
+      className="btn btnSecondary"
+      onClick={handleDisconnect}
+      disabled={isDisconnecting}
+      style={{ marginTop: 12 }}
+    >
+      {isDisconnecting ? "Disconnecting..." : "Disconnect Wallet"}
+    </button>
+  );
+
   return (
     <div id="app">
       {/* Connection status pill (when connected) */}
@@ -125,7 +155,7 @@ export function WalletMachine() {
         </div>
       )}
 
-      {/* STATE 2: CONNECTED — Scan button */}
+      {/* STATE 2: CONNECTED — Scan button + Disconnect */}
       {showConnected && (
         <div className="actionZone">
           <div className="stepIndicator">
@@ -136,10 +166,11 @@ export function WalletMachine() {
           </button>
           <div className="reassurance">Read-only scan. Nothing is signed yet.</div>
           {statusKind === "error" && message && <div className="notice">{message}</div>}
+          <DisconnectButton />
         </div>
       )}
 
-      {/* STATE 2b: SCANNING — show loading */}
+      {/* STATE 2b: SCANNING — show loading + Disconnect */}
       {showScanning && (
         <div className="actionZone">
           <div className="stepIndicator">
@@ -149,10 +180,11 @@ export function WalletMachine() {
             Scanning wallet...
           </button>
           <div className="reassurance">Reading your token accounts on-chain.</div>
+          <DisconnectButton />
         </div>
       )}
 
-      {/* STATE 3: SCANNED — Result + Reclaim */}
+      {/* STATE 3: SCANNED — Result + Reclaim + Disconnect */}
       {showResult && (
         <>
           {scan.emptyAccounts.length > 0 ? (
@@ -185,6 +217,8 @@ export function WalletMachine() {
                     </a>
                   </div>
                 )}
+
+                <DisconnectButton />
               </div>
             </>
           ) : (
@@ -198,6 +232,7 @@ export function WalletMachine() {
               <button className="btn btnPrimary" onClick={scanWallet} style={{ marginTop: 16 }}>
                 Scan again
               </button>
+              <DisconnectButton />
             </div>
           )}
         </>
