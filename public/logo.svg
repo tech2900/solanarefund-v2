@@ -1,0 +1,7 @@
+<svg width="80" height="80" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+  <path d="M40 8 L66 18 L66 38 C66 54 54 66 40 72 C26 66 14 54 14 38 L14 18 Z"
+        fill="none" stroke="#14F195" stroke-width="2.5" stroke-linejoin="round"/>
+  <text x="40" y="50" text-anchor="middle"
+        font-family="JetBrains Mono, monospace" font-size="26"
+        font-weight="600" fill="#9945FF">S</text>
+</svg>
