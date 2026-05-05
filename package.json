@@ -7,16 +7,17 @@
   "dependencies": {
     "@reown/appkit": "latest",
     "@reown/appkit-adapter-solana": "latest",
-    "@solana/web3.js": "latest",
     "@solana/spl-token": "latest",
+    "@solana/web3.js": "latest",
     "next": "latest",
     "react": "latest",
     "react-dom": "latest"
   },
   "devDependencies": {
-    "typescript": "latest",
     "@types/node": "latest",
     "@types/react": "latest",
-    "@types/react-dom": "latest"
+    "@types/react-dom": "latest",
+    "sharp": "^0.34.5",
+    "typescript": "latest"
   }
 }
