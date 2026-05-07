@@ -5,6 +5,7 @@ import { useAppKitConnection, type Provider } from "@reown/appkit-adapter-solana
 import { PublicKey, SystemProgram, Transaction } from "@solana/web3.js";
 import { TOKEN_2022_PROGRAM_ID, TOKEN_PROGRAM_ID, createCloseAccountInstruction } from "@solana/spl-token";
 import { ScanResult, splitIntoBatches, solText, shortAddress } from "@/lib/solana";
+import { WalletModal } from "@/components/WalletModal";
 
 const FEE_WALLET = process.env.NEXT_PUBLIC_FEE_WALLET || "EUsMmpF9iP3JFUDW8JdsEMorvZ1Brer2kywgjb9TWjcw";
 const SERVICE_FEE_BPS = Number(process.env.NEXT_PUBLIC_SERVICE_FEE_BPS || "500");
@@ -24,6 +25,7 @@ export function WalletMachine() {
   const [scan, setScan] = useState<ScanResult | null>(null);
   const [lastTx, setLastTx] = useState<string | null>(null);
   const [isDisconnecting, setIsDisconnecting] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const readyLamports = scan?.recoverableLamports || 0;
   const readySol = solText(readyLamports);
@@ -34,11 +36,18 @@ export function WalletMachine() {
     return `Connected · ${shortAddress(address)}`;
   }, [isConnected, address]);
 
+  const handleConnectClick = useCallback(() => {
+    setIsModalOpen(true);
+  }, []);
+
+  const handleModalClose = useCallback(() => {
+    setIsModalOpen(false);
+  }, []);
+
   const handleDisconnect = useCallback(async () => {
     setIsDisconnecting(true);
     try {
       await disconnect();
-      // Reset all state after disconnect
       setScan(null);
       setStatusKind("idle");
       setMessage("");
@@ -51,7 +60,7 @@ export function WalletMachine() {
   }, [disconnect]);
 
   const scanWallet = useCallback(async () => {
-    if (!address) { await open({ view: "Connect" }); return; }
+    if (!address) { setIsModalOpen(true); return; }
     setStatusKind("scanning"); setMessage("Scanning wallet..."); setLastTx(null);
     try {
       const res = await fetch(`/api/scan?address=${encodeURIComponent(address)}`, { method: "GET", headers: { "Accept": "application/json" } });
@@ -60,7 +69,7 @@ export function WalletMachine() {
       setScan(data); setStatusKind("ready");
       setMessage(data.emptyAccounts.length === 0 ? "Your wallet looks clean. No recoverable SOL found." : "");
     } catch { setStatusKind("error"); setMessage("Scan failed. Please try again."); }
-  }, [address, open]);
+  }, [address]);
 
   const buildTransaction = useCallback(async (accounts: ScanResult["emptyAccounts"]) => {
     if (!address) throw new Error("Wallet not connected.");
@@ -148,7 +157,7 @@ export function WalletMachine() {
           <div className="stepIndicator">
             <span className="num">01</span><span className="slash">/</span>Connect your wallet
           </div>
-          <button className="btn btnPrimary" onClick={() => open({ view: "Connect" })}>
+          <button className="btn btnPrimary" onClick={handleConnectClick}>
             Connect Wallet
           </button>
           <div className="reassurance">SolanaRefund will never ask for your seed phrase.</div>
@@ -237,6 +246,9 @@ export function WalletMachine() {
           )}
         </>
       )}
+
+      {/* Custom wallet modal — renders when user clicks Connect */}
+      <WalletModal isOpen={isModalOpen} onClose={handleModalClose} />
     </div>
   );
 }
