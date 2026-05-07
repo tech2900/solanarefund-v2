@@ -627,3 +627,298 @@ details p {
   opacity: 0.5;
   cursor: not-allowed;
 }
+/* ============================================
+   PATCH: Wallet Modal Styles
+   ============================================
+   
+   IMPORTANT FOR REPLIT AGENT:
+   This file is a PATCH. APPEND its contents to the END of
+   the existing app/globals.css file. DO NOT replace the whole
+   file — the existing CSS for the rest of the app must stay.
+   
+   This patch adds the styles needed for the new custom WalletModal.
+*/
+
+/* Backdrop — full-screen blur overlay behind the modal */
+.walletModalBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0;
+  animation: walletModalFadeIn 0.2s ease-out;
+}
+
+@media (min-width: 640px) {
+  .walletModalBackdrop {
+    align-items: center;
+    padding: 24px;
+  }
+}
+
+@keyframes walletModalFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Modal container — the main card */
+.walletModalContainer {
+  background: #0F0F10;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px 20px 0 0;
+  width: 100%;
+  max-width: 440px;
+  max-height: 92vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow:
+    0 -20px 60px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(153, 69, 255, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  animation: walletModalSlideUp 0.25s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+@media (min-width: 640px) {
+  .walletModalContainer {
+    border-radius: 18px;
+    max-height: 80vh;
+    animation: walletModalScale 0.2s cubic-bezier(0.32, 0.72, 0, 1);
+  }
+}
+
+@keyframes walletModalSlideUp {
+  from { transform: translateY(100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes walletModalScale {
+  from { transform: scale(0.96); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* Header — title + close button */
+.walletModalHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 24px 24px 18px;
+  gap: 12px;
+}
+
+.walletModalTitleGroup {
+  flex: 1;
+  min-width: 0;
+}
+
+.walletModalTitle {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: -0.02em;
+  margin: 0 0 4px;
+  line-height: 1.2;
+}
+
+.walletModalSubtitle {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--text-muted);
+  margin: 0;
+  letter-spacing: 0.01em;
+}
+
+.walletModalClose {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: var(--text-muted);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  padding: 0;
+}
+
+.walletModalClose:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.walletModalClose:active {
+  transform: scale(0.95);
+}
+
+/* Wallet list */
+.walletList {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 6px 16px 16px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Individual wallet item — large, tappable, premium */
+.walletItem {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 12px 14px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+  text-align: left;
+  font-family: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.walletItem:hover:not(:disabled) {
+  background: rgba(153, 69, 255, 0.06);
+  border-color: rgba(153, 69, 255, 0.20);
+  transform: translateY(-1px);
+}
+
+.walletItem:active:not(:disabled) {
+  transform: translateY(0);
+  background: rgba(153, 69, 255, 0.08);
+}
+
+.walletItem:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.walletItemConnecting {
+  background: rgba(153, 69, 255, 0.10);
+  border-color: rgba(153, 69, 255, 0.30);
+  opacity: 1 !important;
+}
+
+/* Wallet icon */
+.walletIconWrap {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.04);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.walletIcon {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.walletIconFallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--purple);
+  background: rgba(153, 69, 255, 0.10);
+}
+
+/* Wallet text info */
+.walletInfo {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.walletName {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.walletDesc {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text-faded);
+  line-height: 1.3;
+  letter-spacing: 0.01em;
+}
+
+.walletItemConnecting .walletDesc {
+  color: var(--purple);
+}
+
+/* Arrow indicator */
+.walletArrow {
+  flex-shrink: 0;
+  color: var(--text-faded);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.18s ease, color 0.18s ease;
+}
+
+.walletItem:hover:not(:disabled) .walletArrow {
+  color: var(--purple);
+  transform: translateX(2px);
+}
+
+/* Footer — "New to Solana" link */
+.walletModalFooter {
+  padding: 14px 24px 22px;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text-faded);
+  text-align: center;
+}
+
+.walletModalLink {
+  color: var(--purple);
+  text-decoration: none;
+  transition: opacity 0.15s ease;
+}
+
+.walletModalLink:hover {
+  opacity: 0.7;
+}
+
+/* Mobile-specific tweaks */
+@media (max-width: 480px) {
+  .walletModalHeader {
+    padding: 22px 20px 16px;
+  }
+  .walletList {
+    padding: 4px 12px 12px;
+  }
+  .walletItem {
+    padding: 11px 12px;
+  }
+  .walletModalFooter {
+    padding: 12px 20px 20px;
+  }
+}
