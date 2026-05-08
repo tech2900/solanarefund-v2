@@ -25,13 +25,17 @@ function isMobileBrowser(): boolean {
     phantom?: unknown;
     solflare?: unknown;
     backpack?: unknown;
+    jupiter?: unknown;
   };
-  const isInAppBrowser = Boolean(w.phantom) || Boolean(w.solflare) || Boolean(w.backpack);
+  const isInAppBrowser =
+    Boolean(w.phantom) ||
+    Boolean(w.solflare) ||
+    Boolean(w.backpack) ||
+    Boolean(w.jupiter);
   return isMobile && !isInAppBrowser;
 }
 
-// Get official wallet icons by instantiating the adapters and reading .icon
-// (each adapter ships with its own base64 SVG icon — no external URLs)
+// Instantiate adapters once to read their built-in base64 SVG icons (no external URLs)
 function getOfficialIcons(): Record<string, string> {
   try {
     return {
@@ -45,24 +49,19 @@ function getOfficialIcons(): Record<string, string> {
   }
 }
 
-// Real official SVG icons inlined as data URIs.
-// These are the actual brand colors and logos for each wallet.
-// Built from the wallets' official brand kits (publicly available).
-
+// Hand-crafted inline SVG icons for wallets without a wallet-adapter package
 const ICON_BACKPACK =
   "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcng9IjI0IiBmaWxsPSIjRTMzRTNGIi8+PHBhdGggZD0iTTI4IDM4VjMyYTEyIDEyIDAgMCAxIDEyLTEyaDIwYTEyIDEyIDAgMCAxIDEyIDEydjZ6IiBmaWxsPSIjZmZmIi8+PHJlY3QgeD0iMjQiIHk9IjM4IiB3aWR0aD0iNTIiIGhlaWdodD0iNDIiIHJ4PSI4IiBmaWxsPSIjZmZmIi8+PHJlY3QgeD0iMzgiIHk9IjUwIiB3aWR0aD0iMjQiIGhlaWdodD0iNiIgcng9IjMiIGZpbGw9IiNFMzNFM0YiLz48L3N2Zz4=";
 
 const ICON_MAGIC_EDEN =
   "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcng9IjI0IiBmaWxsPSIjRTQyNTc1Ii8+PHBhdGggZD0iTTI4IDcyVjI4bDIyIDIyIDIyLTIydjQ0IiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNiIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+";
 
-const ICON_OKX =
-  "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcng9IjI0IiBmaWxsPSIjMDAwIi8+PHJlY3QgeD0iMjAiIHk9IjIwIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIGZpbGw9IiNmZmYiLz48cmVjdCB4PSI2MCIgeT0iMjAiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0iI2ZmZiIvPjxyZWN0IHg9IjQwIiB5PSI0MCIgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIiBmaWxsPSIjZmZmIi8+PHJlY3QgeD0iMjAiIHk9IjYwIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIGZpbGw9IiNmZmYiLz48cmVjdCB4PSI2MCIgeT0iNjAiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0iI2ZmZiIvPjwvc3ZnPg==";
+const ICON_JUPITER =
+  "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcng9IjI0IiBmaWxsPSIjMTcxQTIxIi8+PHBhdGggZD0iTTcwIDMwQTI1IDI1IDAgMSAxIDMwIDcwIiBzdHJva2U9IiMwMGM0ZmYiIHN0cm9rZS13aWR0aD0iOCIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PHBhdGggZD0iTTUwIDMwYzAgMCAxNSAxMCAxNSAyMHMtMTUgMjAtMTUgMjAiIHN0cm9rZT0iIzAwYzRmZiIgc3Ryb2tlLXdpZHRoPSI0IiBmaWxsPSJub25lIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48L3N2Zz4=";
 
 const ICON_MWA =
   "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcng9IjI0IiBmaWxsPSIjOTk0NUZGIi8+PHJlY3QgeD0iMzAiIHk9IjIwIiB3aWR0aD0iNDAiIGhlaWdodD0iNjAiIHJ4PSI2IiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyIgZmlsbD0ibm9uZSIvPjxjaXJjbGUgY3g9IjUwIiBjeT0iNzAiIHI9IjMiIGZpbGw9IiNmZmYiLz48L3N2Zz4=";
 
-// Build a lookup table for icons. Try to use the official adapter icons first,
-// fall back to our hand-crafted icons for wallets that aren't in the adapter list.
 function buildIconMap(): Record<string, string> {
   const official = getOfficialIcons();
   return {
@@ -72,7 +71,7 @@ function buildIconMap(): Record<string, string> {
     "magic eden": ICON_MAGIC_EDEN,
     coinbase: official.coinbase || "",
     trust: official.trust || "",
-    okx: ICON_OKX,
+    jupiter: ICON_JUPITER,
     "mobile wallet adapter": ICON_MWA,
   };
 }
@@ -86,7 +85,11 @@ function findIcon(name: string, iconMap: Record<string, string>): string {
   return "";
 }
 
-// Static wallet entries shown on mobile (when wallets aren't injected)
+// Static wallet list for mobile (deeplinks open the wallet's in-app browser)
+// Research finding: Phantom, Solflare use the Solana Wallet Standard ul/browse scheme.
+// Backpack also implements this same scheme (backpack.app/ul/v1/browse).
+// Coinbase/Trust/OKX have their own deeplink schemes.
+// Magic Eden and Jupiter have no confirmed mobile deeplink — show install page.
 type StaticWallet = {
   name: string;
   description: string;
@@ -94,6 +97,8 @@ type StaticWallet = {
   installUrl: string;
 };
 
+// Order matches user request: Phantom, Jupiter, Solflare, Magic Eden, Backpack, Trust
+// MWA is rendered separately (first) from detectedWallets
 const STATIC_WALLETS: StaticWallet[] = [
   {
     name: "Phantom",
@@ -103,6 +108,11 @@ const STATIC_WALLETS: StaticWallet[] = [
     installUrl: "https://phantom.app/",
   },
   {
+    name: "Jupiter",
+    description: "Solana DEX wallet",
+    installUrl: "https://jup.ag/",
+  },
+  {
     name: "Solflare",
     description: "Native Solana wallet",
     deeplinkBuilder: (url) =>
@@ -110,21 +120,17 @@ const STATIC_WALLETS: StaticWallet[] = [
     installUrl: "https://solflare.com/",
   },
   {
-    name: "Backpack",
-    description: "Modern Solana experience",
-    installUrl: "https://backpack.app/",
-  },
-  {
     name: "Magic Eden",
     description: "NFT-first wallet",
     installUrl: "https://wallet.magiceden.io/",
   },
   {
-    name: "Coinbase Wallet",
-    description: "Self-custody from Coinbase",
+    name: "Backpack",
+    description: "Modern Solana experience",
+    // Backpack implements the Solana Wallet Standard mobile browse scheme
     deeplinkBuilder: (url) =>
-      `https://go.cb-w.com/dapp?cb_url=${encodeURIComponent(url)}`,
-    installUrl: "https://www.coinbase.com/wallet",
+      `https://backpack.app/ul/v1/browse/${encodeURIComponent(url)}?ref=${encodeURIComponent(url)}`,
+    installUrl: "https://backpack.app/",
   },
   {
     name: "Trust Wallet",
@@ -133,28 +139,25 @@ const STATIC_WALLETS: StaticWallet[] = [
       `https://link.trustwallet.com/open_url?coin_id=501&url=${encodeURIComponent(url)}`,
     installUrl: "https://trustwallet.com/",
   },
-  {
-    name: "OKX Wallet",
-    description: "Exchange-grade wallet",
-    deeplinkBuilder: (url) =>
-      `okx://wallet/dapp/url?dappUrl=${encodeURIComponent(url)}`,
-    installUrl: "https://www.okx.com/web3",
-  },
 ];
 
+// Desktop preferred ordering (for wallet-adapter detected wallets)
 const PREFERRED_ORDER = [
+  "mobile wallet adapter",
   "phantom",
-  "solflare",
-  "backpack",
-  "magic eden",
-  "coinbase",
-  "trust",
-  "okx",
   "jupiter",
+  "solflare",
+  "magic eden",
+  "backpack",
+  "trust",
+  "coinbase",
+  "okx",
 ];
 
 const WALLET_DESCRIPTIONS: Record<string, string> = {
+  "mobile wallet adapter": "Connect any installed Solana wallet",
   phantom: "Most popular Solana wallet",
+  jupiter: "Solana DEX wallet",
   solflare: "Native Solana wallet",
   backpack: "Modern Solana experience",
   "magic eden": "NFT-first wallet",
@@ -164,7 +167,6 @@ const WALLET_DESCRIPTIONS: Record<string, string> = {
   "trust wallet": "Multi-chain mobile wallet",
   okx: "Exchange-grade wallet",
   "okx wallet": "Exchange-grade wallet",
-  jupiter: "Solana DEX wallet",
 };
 
 function getDescription(name: string): string {
@@ -180,11 +182,11 @@ function sortWallets(wallets: readonly Wallet[]): Wallet[] {
   return [...wallets].sort((a, b) => {
     const aName = a.adapter.name.toLowerCase();
     const bName = b.adapter.name.toLowerCase();
-    const aPreferred = PREFERRED_ORDER.findIndex((p) => aName.includes(p));
-    const bPreferred = PREFERRED_ORDER.findIndex((p) => bName.includes(p));
-    if (aPreferred !== -1 && bPreferred !== -1) return aPreferred - bPreferred;
-    if (aPreferred !== -1) return -1;
-    if (bPreferred !== -1) return 1;
+    const aIdx = PREFERRED_ORDER.findIndex((p) => aName.includes(p) || p.includes(aName));
+    const bIdx = PREFERRED_ORDER.findIndex((p) => bName.includes(p) || p.includes(bName));
+    if (aIdx !== -1 && bIdx !== -1) return aIdx - bIdx;
+    if (aIdx !== -1) return -1;
+    if (bIdx !== -1) return 1;
     const aInstalled = a.readyState === WalletReadyState.Installed;
     const bInstalled = b.readyState === WalletReadyState.Installed;
     if (aInstalled && !bInstalled) return -1;
@@ -199,7 +201,6 @@ export function WalletModal({ isOpen, onClose }: WalletModalProps) {
   const [error, setError] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
 
-  // Build icon map once on mount
   const iconMap = useMemo(() => buildIconMap(), []);
 
   useEffect(() => {
@@ -237,7 +238,14 @@ export function WalletModal({ isOpen, onClose }: WalletModalProps) {
     );
   }, [wallets]);
 
-  const showStaticList = isMobile;
+  // MWA wallets detected on the device (Android with supporting wallet apps)
+  const mobileWalletAdapters = useMemo(() => {
+    if (!isMobile) return [];
+    return detectedWallets.filter((w) => {
+      const name = w.adapter.name.toLowerCase();
+      return name.includes("mobile wallet adapter") || name.includes("mwa");
+    });
+  }, [detectedWallets, isMobile]);
 
   const handleNativeWalletClick = useCallback(
     async (walletName: string) => {
@@ -267,32 +275,19 @@ export function WalletModal({ isOpen, onClose }: WalletModalProps) {
     [select, connect, onClose, pendingWallet]
   );
 
-  const handleStaticWalletClick = useCallback(
-    (wallet: StaticWallet) => {
-      if (typeof window === "undefined") return;
-      const currentUrl = window.location.href;
-      if (wallet.deeplinkBuilder) {
-        const link = wallet.deeplinkBuilder(currentUrl);
-        window.location.href = link;
-      } else {
-        window.open(wallet.installUrl, "_blank", "noopener,noreferrer");
-      }
-    },
-    []
-  );
-
-  const mobileSpecialWallets = useMemo(() => {
-    if (!isMobile) return [];
-    return detectedWallets.filter((w) => {
-      const name = w.adapter.name.toLowerCase();
-      return name.includes("mobile wallet adapter") || name.includes("mwa");
-    });
-  }, [detectedWallets, isMobile]);
+  const handleStaticWalletClick = useCallback((wallet: StaticWallet) => {
+    if (typeof window === "undefined") return;
+    const currentUrl = window.location.href;
+    if (wallet.deeplinkBuilder) {
+      window.location.href = wallet.deeplinkBuilder(currentUrl);
+    } else {
+      window.open(wallet.installUrl, "_blank", "noopener,noreferrer");
+    }
+  }, []);
 
   if (!isOpen) return null;
 
   const renderIcon = (name: string, adapterIcon?: string) => {
-    // Prefer the adapter's own icon (most accurate)
     const icon = adapterIcon || findIcon(name, iconMap);
     if (icon) {
       /* eslint-disable-next-line @next/next/no-img-element */
@@ -302,6 +297,14 @@ export function WalletModal({ isOpen, onClose }: WalletModalProps) {
       <div className="walletIconFallback">{name.charAt(0).toUpperCase()}</div>
     );
   };
+
+  const renderArrow = () => (
+    <div className="walletArrow" aria-hidden="true">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <path d="M5 3L9 7L5 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    </div>
+  );
 
   return (
     <div
@@ -335,8 +338,60 @@ export function WalletModal({ isOpen, onClose }: WalletModalProps) {
         </div>
 
         <div className="walletList">
-          {/* DESKTOP / IN-APP BROWSER: show wallet-adapter detected wallets */}
-          {!showStaticList && detectedWallets.length === 0 && (
+          {/* MOBILE: MWA listed first (covers Jupiter on Android) */}
+          {isMobile && mobileWalletAdapters.map((wallet) => {
+            const name = wallet.adapter.name;
+            const isPending = pendingWallet === name;
+            return (
+              <button
+                key={name}
+                type="button"
+                className={`walletItem${isPending ? " walletItemConnecting" : ""}`}
+                onClick={() => handleNativeWalletClick(name)}
+                disabled={pendingWallet !== null}
+              >
+                <div className="walletIconWrap">
+                  {renderIcon(name, wallet.adapter.icon)}
+                </div>
+                <div className="walletInfo">
+                  <div className="walletName">{name}</div>
+                  <div className="walletDesc">
+                    {isPending ? "Connecting..." : "Connect any installed Solana wallet"}
+                  </div>
+                </div>
+                {renderArrow()}
+              </button>
+            );
+          })}
+
+          {/* MOBILE: static wallet list in user's preferred order */}
+          {isMobile && STATIC_WALLETS.map((wallet) => {
+            const hasDeeplink = Boolean(wallet.deeplinkBuilder);
+            return (
+              <button
+                key={wallet.name}
+                type="button"
+                className="walletItem"
+                onClick={() => handleStaticWalletClick(wallet)}
+              >
+                <div className="walletIconWrap">
+                  {renderIcon(wallet.name)}
+                </div>
+                <div className="walletInfo">
+                  <div className="walletName">{wallet.name}</div>
+                  <div className="walletDesc">
+                    {hasDeeplink
+                      ? wallet.description
+                      : `${wallet.description} · tap to install`}
+                  </div>
+                </div>
+                {renderArrow()}
+              </button>
+            );
+          })}
+
+          {/* DESKTOP / IN-APP BROWSER: wallet-adapter detected wallets */}
+          {!isMobile && detectedWallets.length === 0 && (
             <div className="walletEmpty">
               <p>No Solana wallets detected.</p>
               <p className="walletEmptyHint">
@@ -349,7 +404,7 @@ export function WalletModal({ isOpen, onClose }: WalletModalProps) {
             </div>
           )}
 
-          {!showStaticList && detectedWallets.map((wallet) => {
+          {!isMobile && detectedWallets.map((wallet) => {
             const name = wallet.adapter.name;
             const isPending = pendingWallet === name;
             const isInstalled = wallet.readyState === WalletReadyState.Installed;
@@ -373,69 +428,7 @@ export function WalletModal({ isOpen, onClose }: WalletModalProps) {
                     {isPending ? "Connecting..." : getDescription(name)}
                   </div>
                 </div>
-                <div className="walletArrow" aria-hidden="true">
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                    <path d="M5 3L9 7L5 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </div>
-              </button>
-            );
-          })}
-
-          {/* MOBILE: static wallet list with deeplinks (icons from adapters!) */}
-          {showStaticList && STATIC_WALLETS.map((wallet) => {
-            const hasDeeplink = Boolean(wallet.deeplinkBuilder);
-            return (
-              <button
-                key={wallet.name}
-                type="button"
-                className="walletItem"
-                onClick={() => handleStaticWalletClick(wallet)}
-              >
-                <div className="walletIconWrap">
-                  {renderIcon(wallet.name)}
-                </div>
-                <div className="walletInfo">
-                  <div className="walletName">{wallet.name}</div>
-                  <div className="walletDesc">
-                    {hasDeeplink ? wallet.description : `${wallet.description} (install required)`}
-                  </div>
-                </div>
-                <div className="walletArrow" aria-hidden="true">
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                    <path d="M5 3L9 7L5 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </div>
-              </button>
-            );
-          })}
-
-          {/* MOBILE: also show MWA */}
-          {showStaticList && mobileSpecialWallets.map((wallet) => {
-            const name = wallet.adapter.name;
-            const isPending = pendingWallet === name;
-            return (
-              <button
-                key={name}
-                type="button"
-                className={`walletItem${isPending ? " walletItemConnecting" : ""}`}
-                onClick={() => handleNativeWalletClick(name)}
-                disabled={pendingWallet !== null}
-              >
-                <div className="walletIconWrap">
-                  {renderIcon(name, wallet.adapter.icon)}
-                </div>
-                <div className="walletInfo">
-                  <div className="walletName">{name}</div>
-                  <div className="walletDesc">
-                    {isPending ? "Connecting..." : "Connect any installed Solana wallet"}
-                  </div>
-                </div>
-                <div className="walletArrow" aria-hidden="true">
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                    <path d="M5 3L9 7L5 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </div>
+                {renderArrow()}
               </button>
             );
           })}
@@ -444,18 +437,13 @@ export function WalletModal({ isOpen, onClose }: WalletModalProps) {
         {error && <div className="walletError">{error}</div>}
 
         <div className="walletModalFooter">
-          {showStaticList ? (
+          {isMobile ? (
             <>Tip: Open in a wallet&apos;s browser for fastest connection.</>
           ) : (
             <>
               New to Solana?{" "}
-              <a
-                href="https://phantom.app/"
-                target="_blank"
-                rel="noreferrer noopener"
-                className="walletModalLink"
-              >
-                Get a wallet ↗
+              <a href="https://phantom.app/" target="_blank" rel="noreferrer noopener" className="walletModalLink">
+                Get Phantom ↗
               </a>
             </>
           )}
