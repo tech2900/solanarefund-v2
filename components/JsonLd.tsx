@@ -1,5 +1,5 @@
 export function JsonLd() {
-  // Schema 1: WebSite — enables Google Sitelinks Search Box
+  // Schema 1: WebSite — enables Google Sitelinks Search Box + SearchAction
   const website = {
     "@context": "https://schema.org",
     "@type": "WebSite",
@@ -9,6 +9,11 @@ export function JsonLd() {
     "url": "https://solanarefund.xyz",
     "description": "Recover SOL locked inside unused Solana token accounts.",
     "inLanguage": "en-US",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://solanarefund.xyz/?wallet={search_term_string}",
+      "query-input": "required name=search_term_string"
+    },
     "publisher": {
       "@id": "https://solanarefund.xyz/#organization"
     }
@@ -42,6 +47,7 @@ export function JsonLd() {
     "applicationSubCategory": "Cryptocurrency Wallet Tool",
     "operatingSystem": "Web Browser",
     "browserRequirements": "Requires JavaScript and a Solana wallet (Phantom, Solflare, Backpack, etc.)",
+    "screenshot": "https://solanarefund.xyz/og-image.png",
     "description": "SolanaRefund scans your Solana wallet for unused token accounts and helps you recover SOL locked as rent-exempt balance by closing empty accounts safely. No seed phrase required, non-custodial, you approve every action.",
     "featureList": [
       "Scan Solana wallets for unused token accounts",

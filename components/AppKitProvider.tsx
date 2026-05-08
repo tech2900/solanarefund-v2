@@ -1,32 +1,61 @@
 "use client";
-import { ReactNode, useMemo } from "react";
-import { ConnectionProvider, WalletProvider as SolanaWalletProvider } from "@solana/wallet-adapter-react";
-import { PhantomWalletAdapter, SolflareWalletAdapter } from "@solana/wallet-adapter-wallets";
-import type { Adapter } from "@solana/wallet-adapter-base";
+import { ReactNode } from "react";
+import { createAppKit } from "@reown/appkit/react";
+import { SolanaAdapter } from "@reown/appkit-adapter-solana/react";
+import { solana } from "@reown/appkit/networks";
 
-// RPC endpoint — uses Helius if available, falls back to public mainnet
-const RPC_ENDPOINT =
-  process.env.NEXT_PUBLIC_SOLANA_RPC_URL ||
-  "https://api.mainnet-beta.solana.com";
+const projectId = process.env.NEXT_PUBLIC_REOWN_PROJECT_ID || "";
+
+const solanaAdapter = new SolanaAdapter();
+
+// Pre-initialize AppKit at module load (client-side only).
+// This is the official Reown pattern for Next.js App Router — the "use client"
+// directive ensures this module is never evaluated on the server.
+createAppKit({
+  adapters: [solanaAdapter],
+  networks: [solana],
+  defaultNetwork: solana,
+  projectId,
+  metadata: {
+    name: "SolanaRefund",
+    description: "Recover locked SOL from unused Solana token accounts.",
+    url: "https://solanarefund.xyz",
+    icons: ["https://solanarefund.xyz/icon-512.png"],
+  },
+  features: {
+    analytics: true,
+    email: false,
+    socials: [],
+    onramp: false,
+    swaps: false,
+    history: false,
+    emailShowWallets: false,
+  },
+  themeMode: "dark",
+  themeVariables: {
+    "--w3m-accent": "#9945FF",
+    "--w3m-border-radius-master": "12px",
+    "--w3m-font-family": "JetBrains Mono, monospace",
+    "--w3m-font-size-master": "14px",
+    "--w3m-z-index": 99999,
+  },
+  // Wallet IDs verified from sol-incinerator's wallet-vendor JS bundle (64-char hex)
+  featuredWalletIds: [
+    "a797aa35c0fadbfc1a53e7f675162ed5226968b44a19ee3d24385c64d1d3c393", // Phantom
+    "1ca0bdd4747578705b1939af023d120677c64fe6ca76add81fda36e350605e79", // Solflare
+    "8b830a2b724a9c3fbab63af6f55ed29c9dfa8a55e732dc88c80a196a2ba136c6", // Magic Eden
+    "2bd8c14e035c2d48f184aaa168559e86b0e3433228d3c4075900a221785019b0", // Backpack
+    "4622a2b2d6af1c9844944291e5e7351a6aa24cd7b23099efac1b2fd875da31a0", // Trust Wallet
+    "971e689d0a5be527bac79629b4ee9b925e82208e5168b733496a09c0faed0709", // OKX
+    "fd20dc426fb37566d803205b19bbc1d4096b248ac04548e3cfb6b3a38bd033aa", // Coinbase
+  ],
+  enableInjected: true,
+  enableWalletConnect: true,
+  enableEIP6963: true,
+  enableCoinbase: true,
+  allowUnsupportedChain: false,
+});
 
 export function AppKitProvider({ children }: { children: ReactNode }) {
-  // Wallet Standard auto-detects most modern wallets (Phantom, Solflare, Backpack,
-  // Magic Eden, OKX, Coinbase, Trust) when they're installed as browser extensions
-  // or available as in-app browsers. We add Phantom and Solflare adapters explicitly
-  // for older versions that don't support Wallet Standard yet.
-  const wallets = useMemo<Adapter[]>(
-    () => [
-      new PhantomWalletAdapter(),
-      new SolflareWalletAdapter(),
-    ],
-    []
-  );
-
-  return (
-    <ConnectionProvider endpoint={RPC_ENDPOINT}>
-      <SolanaWalletProvider wallets={wallets} autoConnect>
-        {children}
-      </SolanaWalletProvider>
-    </ConnectionProvider>
-  );
+  return <>{children}</>;
 }
