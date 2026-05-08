@@ -6,7 +6,6 @@ import type { Provider } from "@reown/appkit-adapter-solana/react";
 import { PublicKey, SystemProgram, Transaction } from "@solana/web3.js";
 import { TOKEN_2022_PROGRAM_ID, TOKEN_PROGRAM_ID, createCloseAccountInstruction } from "@solana/spl-token";
 import { ScanResult, splitIntoBatches, solText, shortAddress } from "@/lib/solana";
-import { WalletModal } from "@/components/WalletModal";
 
 const FEE_WALLET = process.env.NEXT_PUBLIC_FEE_WALLET || "EUsMmpF9iP3JFUDW8JdsEMorvZ1Brer2kywgjb9TWjcw";
 const SERVICE_FEE_BPS = Number(process.env.NEXT_PUBLIC_SERVICE_FEE_BPS || "500");
@@ -27,7 +26,6 @@ export function WalletMachine() {
   const [scan, setScan] = useState<ScanResult | null>(null);
   const [lastTx, setLastTx] = useState<string | null>(null);
   const [isDisconnecting, setIsDisconnecting] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Derive PublicKey from address string (Reown returns base58 string, not PublicKey)
   const publicKey = useMemo(() => {
@@ -48,12 +46,8 @@ export function WalletMachine() {
   }, [isActuallyConnected, address]);
 
   const handleConnectClick = useCallback(() => {
-    setIsModalOpen(true);
-  }, []);
-
-  const handleModalClose = useCallback(() => {
-    setIsModalOpen(false);
-  }, []);
+    open();
+  }, [open]);
 
   const handleDisconnect = useCallback(async () => {
     setIsDisconnecting(true);
@@ -71,7 +65,7 @@ export function WalletMachine() {
   }, [disconnect]);
 
   const scanWallet = useCallback(async () => {
-    if (!address) { setIsModalOpen(true); return; }
+    if (!address) { open(); return; }
     setStatusKind("scanning"); setMessage("Scanning wallet..."); setLastTx(null);
     try {
       const res = await fetch(`/api/scan?address=${encodeURIComponent(address)}`, {
@@ -86,7 +80,7 @@ export function WalletMachine() {
       setStatusKind("error");
       setMessage("Scan failed. Please try again.");
     }
-  }, [address]);
+  }, [address, open]);
 
   const buildTransaction = useCallback(async (accounts: ScanResult["emptyAccounts"]) => {
     if (!publicKey || !connection) throw new Error("Wallet not connected.");
@@ -281,8 +275,6 @@ export function WalletMachine() {
         </>
       )}
 
-      {/* Custom wallet modal — uses Reown AppKit connection underneath */}
-      <WalletModal isOpen={isModalOpen} onClose={handleModalClose} onOpen={open} />
     </div>
   );
 }
