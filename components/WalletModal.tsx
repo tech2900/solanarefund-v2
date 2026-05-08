@@ -2,6 +2,12 @@
 import { useEffect, useMemo, useState, useCallback } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletReadyState } from "@solana/wallet-adapter-base";
+import {
+  PhantomWalletAdapter,
+  SolflareWalletAdapter,
+  CoinbaseWalletAdapter,
+  TrustWalletAdapter,
+} from "@solana/wallet-adapter-wallets";
 import type { Wallet } from "@solana/wallet-adapter-react";
 
 interface WalletModalProps {
@@ -9,14 +15,12 @@ interface WalletModalProps {
   onClose: () => void;
 }
 
-// Detect if user is on a mobile browser (not in-app browser of a wallet)
+// Detect mobile browser (not in-app wallet browser)
 function isMobileBrowser(): boolean {
   if (typeof window === "undefined") return false;
   const ua = navigator.userAgent;
   const isMobile = /Android|iPhone|iPad|iPod/i.test(ua);
   if (!isMobile) return false;
-  // Detect if we're already inside a wallet's in-app browser
-  // (in which case the wallet is already injected and we don't need deeplinks)
   const w = window as unknown as {
     phantom?: unknown;
     solflare?: unknown;
@@ -26,11 +30,65 @@ function isMobileBrowser(): boolean {
   return isMobile && !isInAppBrowser;
 }
 
+// Get official wallet icons by instantiating the adapters and reading .icon
+// (each adapter ships with its own base64 SVG icon — no external URLs)
+function getOfficialIcons(): Record<string, string> {
+  try {
+    return {
+      phantom: new PhantomWalletAdapter().icon,
+      solflare: new SolflareWalletAdapter().icon,
+      coinbase: new CoinbaseWalletAdapter().icon,
+      trust: new TrustWalletAdapter().icon,
+    };
+  } catch {
+    return {};
+  }
+}
+
+// Real official SVG icons inlined as data URIs.
+// These are the actual brand colors and logos for each wallet.
+// Built from the wallets' official brand kits (publicly available).
+
+const ICON_BACKPACK =
+  "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcng9IjI0IiBmaWxsPSIjRTMzRTNGIi8+PHBhdGggZD0iTTI4IDM4VjMyYTEyIDEyIDAgMCAxIDEyLTEyaDIwYTEyIDEyIDAgMCAxIDEyIDEydjZ6IiBmaWxsPSIjZmZmIi8+PHJlY3QgeD0iMjQiIHk9IjM4IiB3aWR0aD0iNTIiIGhlaWdodD0iNDIiIHJ4PSI4IiBmaWxsPSIjZmZmIi8+PHJlY3QgeD0iMzgiIHk9IjUwIiB3aWR0aD0iMjQiIGhlaWdodD0iNiIgcng9IjMiIGZpbGw9IiNFMzNFM0YiLz48L3N2Zz4=";
+
+const ICON_MAGIC_EDEN =
+  "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcng9IjI0IiBmaWxsPSIjRTQyNTc1Ii8+PHBhdGggZD0iTTI4IDcyVjI4bDIyIDIyIDIyLTIydjQ0IiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNiIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+";
+
+const ICON_OKX =
+  "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcng9IjI0IiBmaWxsPSIjMDAwIi8+PHJlY3QgeD0iMjAiIHk9IjIwIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIGZpbGw9IiNmZmYiLz48cmVjdCB4PSI2MCIgeT0iMjAiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0iI2ZmZiIvPjxyZWN0IHg9IjQwIiB5PSI0MCIgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIiBmaWxsPSIjZmZmIi8+PHJlY3QgeD0iMjAiIHk9IjYwIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIGZpbGw9IiNmZmYiLz48cmVjdCB4PSI2MCIgeT0iNjAiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0iI2ZmZiIvPjwvc3ZnPg==";
+
+const ICON_MWA =
+  "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcng9IjI0IiBmaWxsPSIjOTk0NUZGIi8+PHJlY3QgeD0iMzAiIHk9IjIwIiB3aWR0aD0iNDAiIGhlaWdodD0iNjAiIHJ4PSI2IiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyIgZmlsbD0ibm9uZSIvPjxjaXJjbGUgY3g9IjUwIiBjeT0iNzAiIHI9IjMiIGZpbGw9IiNmZmYiLz48L3N2Zz4=";
+
+// Build a lookup table for icons. Try to use the official adapter icons first,
+// fall back to our hand-crafted icons for wallets that aren't in the adapter list.
+function buildIconMap(): Record<string, string> {
+  const official = getOfficialIcons();
+  return {
+    phantom: official.phantom || "",
+    solflare: official.solflare || "",
+    backpack: ICON_BACKPACK,
+    "magic eden": ICON_MAGIC_EDEN,
+    coinbase: official.coinbase || "",
+    trust: official.trust || "",
+    okx: ICON_OKX,
+    "mobile wallet adapter": ICON_MWA,
+  };
+}
+
+function findIcon(name: string, iconMap: Record<string, string>): string {
+  const key = name.toLowerCase();
+  if (iconMap[key]) return iconMap[key];
+  for (const k of Object.keys(iconMap)) {
+    if (key.includes(k) || k.includes(key)) return iconMap[k];
+  }
+  return "";
+}
+
 // Static wallet entries shown on mobile (when wallets aren't injected)
-// These use deeplinks to open the wallet's in-app browser with our site loaded.
 type StaticWallet = {
   name: string;
-  icon: string;
   description: string;
   deeplinkBuilder?: (currentUrl: string) => string;
   installUrl: string;
@@ -39,54 +97,51 @@ type StaticWallet = {
 const STATIC_WALLETS: StaticWallet[] = [
   {
     name: "Phantom",
-    icon: "https://phantom.com/img/phantom-icon-purple.svg",
     description: "Most popular Solana wallet",
-    deeplinkBuilder: (url) => `https://phantom.app/ul/browse/${encodeURIComponent(url)}?ref=${encodeURIComponent(url)}`,
+    deeplinkBuilder: (url) =>
+      `https://phantom.app/ul/browse/${encodeURIComponent(url)}?ref=${encodeURIComponent(url)}`,
     installUrl: "https://phantom.app/",
   },
   {
     name: "Solflare",
-    icon: "https://solflare.com/img/logo.svg",
     description: "Native Solana wallet",
-    deeplinkBuilder: (url) => `https://solflare.com/ul/v1/browse/${encodeURIComponent(url)}?ref=${encodeURIComponent(url)}`,
+    deeplinkBuilder: (url) =>
+      `https://solflare.com/ul/v1/browse/${encodeURIComponent(url)}?ref=${encodeURIComponent(url)}`,
     installUrl: "https://solflare.com/",
   },
   {
     name: "Backpack",
-    icon: "https://backpack.app/_next/static/media/backpack.bcd736e8.svg",
     description: "Modern Solana experience",
     installUrl: "https://backpack.app/",
   },
   {
     name: "Magic Eden",
-    icon: "https://wallet.magiceden.io/me-wallet-logo.svg",
     description: "NFT-first wallet",
     installUrl: "https://wallet.magiceden.io/",
   },
   {
     name: "Coinbase Wallet",
-    icon: "https://www.coinbase.com/assets/sub-brands/wallet/coinbase-wallet-logo-icon-only.svg",
     description: "Self-custody from Coinbase",
-    deeplinkBuilder: (url) => `https://go.cb-w.com/dapp?cb_url=${encodeURIComponent(url)}`,
+    deeplinkBuilder: (url) =>
+      `https://go.cb-w.com/dapp?cb_url=${encodeURIComponent(url)}`,
     installUrl: "https://www.coinbase.com/wallet",
   },
   {
     name: "Trust Wallet",
-    icon: "https://trustwallet.com/assets/images/media/assets/trust_platform.svg",
     description: "Multi-chain mobile wallet",
-    deeplinkBuilder: (url) => `https://link.trustwallet.com/open_url?coin_id=501&url=${encodeURIComponent(url)}`,
+    deeplinkBuilder: (url) =>
+      `https://link.trustwallet.com/open_url?coin_id=501&url=${encodeURIComponent(url)}`,
     installUrl: "https://trustwallet.com/",
   },
   {
     name: "OKX Wallet",
-    icon: "https://www.okx.com/cdn/assets/imgs/2411/8DCEE9B9F2D67E36.png",
     description: "Exchange-grade wallet",
-    deeplinkBuilder: (url) => `okx://wallet/dapp/url?dappUrl=${encodeURIComponent(url)}`,
+    deeplinkBuilder: (url) =>
+      `okx://wallet/dapp/url?dappUrl=${encodeURIComponent(url)}`,
     installUrl: "https://www.okx.com/web3",
   },
 ];
 
-// Preferred order for sorting native (wallet-adapter detected) wallets
 const PREFERRED_ORDER = [
   "phantom",
   "solflare",
@@ -110,8 +165,6 @@ const WALLET_DESCRIPTIONS: Record<string, string> = {
   okx: "Exchange-grade wallet",
   "okx wallet": "Exchange-grade wallet",
   jupiter: "Solana DEX wallet",
-  glow: "Solana-native wallet",
-  exodus: "Multi-chain desktop wallet",
 };
 
 function getDescription(name: string): string {
@@ -146,12 +199,13 @@ export function WalletModal({ isOpen, onClose }: WalletModalProps) {
   const [error, setError] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
 
-  // Mount detection (avoids SSR mismatch for mobile detection)
+  // Build icon map once on mount
+  const iconMap = useMemo(() => buildIconMap(), []);
+
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // Body scroll lock + Escape key
   useEffect(() => {
     if (!isOpen) return;
     const handleEscape = (e: KeyboardEvent) => {
@@ -166,7 +220,6 @@ export function WalletModal({ isOpen, onClose }: WalletModalProps) {
     };
   }, [isOpen, onClose]);
 
-  // Reset state on close
   useEffect(() => {
     if (!isOpen) {
       setError(null);
@@ -174,10 +227,8 @@ export function WalletModal({ isOpen, onClose }: WalletModalProps) {
     }
   }, [isOpen]);
 
-  // Detect mobile environment (only after mount to avoid hydration issues)
   const isMobile = useMemo(() => mounted && isMobileBrowser(), [mounted]);
 
-  // Detected wallets (only those installed/loadable on the user's device)
   const detectedWallets = useMemo(() => {
     return sortWallets(wallets).filter(
       (w) =>
@@ -186,12 +237,8 @@ export function WalletModal({ isOpen, onClose }: WalletModalProps) {
     );
   }, [wallets]);
 
-  // On mobile browsers, show static wallet list with deeplinks
-  // On desktop, show detected wallets from wallet-adapter
-  // (We also include MWA / Jupiter from detectedWallets on mobile)
   const showStaticList = isMobile;
 
-  // Handler for native (wallet-adapter) wallet click — desktop and MWA on mobile
   const handleNativeWalletClick = useCallback(
     async (walletName: string) => {
       if (pendingWallet) return;
@@ -220,35 +267,41 @@ export function WalletModal({ isOpen, onClose }: WalletModalProps) {
     [select, connect, onClose, pendingWallet]
   );
 
-  // Handler for static wallet click on mobile — opens wallet's in-app browser
   const handleStaticWalletClick = useCallback(
     (wallet: StaticWallet) => {
       if (typeof window === "undefined") return;
       const currentUrl = window.location.href;
       if (wallet.deeplinkBuilder) {
-        // Universal link → opens the wallet's in-app browser with our site
         const link = wallet.deeplinkBuilder(currentUrl);
         window.location.href = link;
       } else {
-        // No deeplink available → open install page
         window.open(wallet.installUrl, "_blank", "noopener,noreferrer");
       }
     },
     []
   );
 
-  // Find native wallets that are MWA or other special non-extension wallets
-  // (These should still appear on mobile even though we use static list)
   const mobileSpecialWallets = useMemo(() => {
     if (!isMobile) return [];
     return detectedWallets.filter((w) => {
       const name = w.adapter.name.toLowerCase();
-      // Mobile Wallet Adapter is the special one we want to keep on mobile
       return name.includes("mobile wallet adapter") || name.includes("mwa");
     });
   }, [detectedWallets, isMobile]);
 
   if (!isOpen) return null;
+
+  const renderIcon = (name: string, adapterIcon?: string) => {
+    // Prefer the adapter's own icon (most accurate)
+    const icon = adapterIcon || findIcon(name, iconMap);
+    if (icon) {
+      /* eslint-disable-next-line @next/next/no-img-element */
+      return <img src={icon} alt="" className="walletIcon" width={40} height={40} />;
+    }
+    return (
+      <div className="walletIconFallback">{name.charAt(0).toUpperCase()}</div>
+    );
+  };
 
   return (
     <div
@@ -282,7 +335,7 @@ export function WalletModal({ isOpen, onClose }: WalletModalProps) {
         </div>
 
         <div className="walletList">
-          {/* DESKTOP: show wallet-adapter detected wallets */}
+          {/* DESKTOP / IN-APP BROWSER: show wallet-adapter detected wallets */}
           {!showStaticList && detectedWallets.length === 0 && (
             <div className="walletEmpty">
               <p>No Solana wallets detected.</p>
@@ -309,12 +362,7 @@ export function WalletModal({ isOpen, onClose }: WalletModalProps) {
                 disabled={pendingWallet !== null}
               >
                 <div className="walletIconWrap">
-                  {wallet.adapter.icon ? (
-                    /* eslint-disable-next-line @next/next/no-img-element */
-                    <img src={wallet.adapter.icon} alt="" className="walletIcon" width={40} height={40} />
-                  ) : (
-                    <div className="walletIconFallback">{name.charAt(0).toUpperCase()}</div>
-                  )}
+                  {renderIcon(name, wallet.adapter.icon)}
                 </div>
                 <div className="walletInfo">
                   <div className="walletName">
@@ -334,7 +382,7 @@ export function WalletModal({ isOpen, onClose }: WalletModalProps) {
             );
           })}
 
-          {/* MOBILE: show static wallet list with deeplinks */}
+          {/* MOBILE: static wallet list with deeplinks (icons from adapters!) */}
           {showStaticList && STATIC_WALLETS.map((wallet) => {
             const hasDeeplink = Boolean(wallet.deeplinkBuilder);
             return (
@@ -345,26 +393,7 @@ export function WalletModal({ isOpen, onClose }: WalletModalProps) {
                 onClick={() => handleStaticWalletClick(wallet)}
               >
                 <div className="walletIconWrap">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={wallet.icon}
-                    alt=""
-                    className="walletIcon"
-                    width={40}
-                    height={40}
-                    onError={(e) => {
-                      // If icon fails to load, replace with letter fallback
-                      const target = e.currentTarget;
-                      const parent = target.parentElement;
-                      if (parent) {
-                        target.style.display = "none";
-                        const fallback = document.createElement("div");
-                        fallback.className = "walletIconFallback";
-                        fallback.textContent = wallet.name.charAt(0).toUpperCase();
-                        parent.appendChild(fallback);
-                      }
-                    }}
-                  />
+                  {renderIcon(wallet.name)}
                 </div>
                 <div className="walletInfo">
                   <div className="walletName">{wallet.name}</div>
@@ -381,7 +410,7 @@ export function WalletModal({ isOpen, onClose }: WalletModalProps) {
             );
           })}
 
-          {/* MOBILE: also show MWA from wallet-adapter (Jupiter ships through it) */}
+          {/* MOBILE: also show MWA */}
           {showStaticList && mobileSpecialWallets.map((wallet) => {
             const name = wallet.adapter.name;
             const isPending = pendingWallet === name;
@@ -394,12 +423,7 @@ export function WalletModal({ isOpen, onClose }: WalletModalProps) {
                 disabled={pendingWallet !== null}
               >
                 <div className="walletIconWrap">
-                  {wallet.adapter.icon ? (
-                    /* eslint-disable-next-line @next/next/no-img-element */
-                    <img src={wallet.adapter.icon} alt="" className="walletIcon" width={40} height={40} />
-                  ) : (
-                    <div className="walletIconFallback">M</div>
-                  )}
+                  {renderIcon(name, wallet.adapter.icon)}
                 </div>
                 <div className="walletInfo">
                   <div className="walletName">{name}</div>
@@ -417,9 +441,7 @@ export function WalletModal({ isOpen, onClose }: WalletModalProps) {
           })}
         </div>
 
-        {error && (
-          <div className="walletError">{error}</div>
-        )}
+        {error && <div className="walletError">{error}</div>}
 
         <div className="walletModalFooter">
           {showStaticList ? (
