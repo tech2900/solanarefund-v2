@@ -14,23 +14,17 @@ const WC_WALLET_IDS = {
   coinbase:   "fd20dc426fb37566d803205b19bbc1d4096b248ac04548e3cfb6b3a38bd033aa",
 } as const;
 
-// Inline base64 wallet icons — no external URL fetches needed, works CSP-safe
-// Icons are sourced from official wallet brand assets (simplified SVG form)
+// Official wallet icons served from /public/wallets/ (downloaded from official wallet-adapter
+// npm packages via unpkg.com — these are the exact same icons the wallet apps use).
+// Using static file paths keeps bundle size small and avoids CSP issues.
 const ICONS: Record<string, string> = {
-  mwa:
-    "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcng9IjI0IiBmaWxsPSIjOTk0NUZGIi8+PHJlY3QgeD0iMzAiIHk9IjIwIiB3aWR0aD0iNDAiIGhlaWdodD0iNjAiIHJ4PSI2IiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMy41IiBmaWxsPSJub25lIi8+PGNpcmNsZSBjeD0iNTAiIGN5PSI3MCIgcj0iMyIgZmlsbD0iI2ZmZiIvPjwvc3ZnPg==",
-  phantom:
-    "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcng9IjI0IiBmaWxsPSIjNTQxNEY1Ii8+PGVsbGlwc2UgY3g9IjUwIiBjeT0iNDYiIHJ4PSIyNCIgcnk9IjIyIiBmaWxsPSIjZmZmIi8+PGNpcmNsZSBjeD0iNDQiIGN5PSI0NiIgcj0iNyIgZmlsbD0iIzU0MTRGNSIvPjxlbGxpcHNlIGN4PSI1NiIgY3k9IjUyIiByeD0iMTIiIHJ5PSI4IiBmaWxsPSIjNTQxNEY1IiBvcGFjaXR5PSIwLjgiLz48L3N2Zz4=",
-  jupiter:
-    "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcng9IjI0IiBmaWxsPSIjMTcxQTIxIi8+PHBhdGggZD0iTTcwIDMwQTI1IDI1IDAgMSAxIDMwIDcwIiBzdHJva2U9IiMwMGM0ZmYiIHN0cm9rZS13aWR0aD0iOCIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PHBhdGggZD0iTTUwIDMwYzAgMCAxNSAxMCAxNSAyMHMtMTUgMjAtMTUgMjAiIHN0cm9rZT0iIzAwYzRmZiIgc3Ryb2tlLXdpZHRoPSI0IiBmaWxsPSJub25lIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48L3N2Zz4=",
-  solflare:
-    "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcng9IjI0IiBmaWxsPSIjRkM1MDBBIi8+PHBhdGggZD0iTTUwIDIwTDc2IDY1SDI0TDUwIDIwWiIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC45NSIvPjxwYXRoIGQ9Ik01MCA0MEw2OCA3MEgzMkw1MCA0MFoiIGZpbGw9IiNGQzUwMEEiLz48L3N2Zz4=",
-  magicEden:
-    "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcng9IjI0IiBmaWxsPSIjRTQyNTc1Ii8+PHBhdGggZD0iTTI4IDcyVjI4bDIyIDIyIDIyLTIydjQ0IiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNiIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+",
-  backpack:
-    "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcng9IjI0IiBmaWxsPSIjRTMzRTNGIi8+PHBhdGggZD0iTTI4IDM4VjMyYTEyIDEyIDAgMCAxIDEyLTEyaDIwYTEyIDEyIDAgMCAxIDEyIDEydjZ6IiBmaWxsPSIjZmZmIi8+PHJlY3QgeD0iMjQiIHk9IjM4IiB3aWR0aD0iNTIiIGhlaWdodD0iNDIiIHJ4PSI4IiBmaWxsPSIjZmZmIi8+PHJlY3QgeD0iMzgiIHk9IjUwIiB3aWR0aD0iMjQiIGhlaWdodD0iNiIgcng9IjMiIGZpbGw9IiNFMzNFM0YiLz48L3N2Zz4=",
-  trust:
-    "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcng9IjI0IiBmaWxsPSIjMzM3NUJCIi8+PHBhdGggZD0iTTUwIDIyTDI0IDM0djI0YzAgMTQgMTEgMjYgMjYgMjhzMjYtMTQgMjYtMjhWMzRMNTAgMjJ6IiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIwLjkiLz48cGF0aCBkPSJNNTAgMzJMMzIgNDJ2MThjMCA5IDggMTcgMTggMTlzMTgtMTAgMTgtMTlWNDJMNTAgMzJ6IiBmaWxsPSIjMzM3NUJCIi8+PC9zdmc+",
+  mwa:       "/wallets/mwa.svg",
+  phantom:   "/wallets/phantom.svg",
+  jupiter:   "/wallets/jupiter.png",
+  solflare:  "/wallets/solflare.svg",
+  magicEden: "/wallets/magiceden.svg",
+  backpack:  "/wallets/backpack.png",
+  trust:     "/wallets/trust.svg",
 };
 
 // Mobile deeplinks — only for wallets with confirmed Solana Wallet Standard support
