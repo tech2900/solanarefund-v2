@@ -1,28 +1,36 @@
-/* ============================================
-   SolanaRefund — Luxury Mono Redesign
-   ============================================ */
+/* ============================================================
+   SolanaRefund — Production Stylesheet
+   Brand: deep black · subtle gold accent #c8a96a
+   ============================================================ */
 
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
 
 :root {
-  --bg: #0A0A0A;
-  --bg-elevated: #111111;
-  --text: #E5E5E5;
-  --text-muted: #737373;
-  --text-faded: #525252;
-  --border: #1F1F1F;
-  --border-soft: #161616;
-  --purple: #9945FF;
-  --purple-soft: rgba(153, 69, 255, 0.08);
-  --purple-border: rgba(153, 69, 255, 0.25);
-  --green: #14F195;
-  --green-soft: rgba(20, 241, 149, 0.06);
-  --green-border: rgba(20, 241, 149, 0.20);
-  --gold: #D4B36A;
-  --gold-soft: rgba(212, 179, 106, 0.04);
-  --gold-border: rgba(212, 179, 106, 0.20);
+  --bg:           #080808;
+  --bg-elevated:  #0e0e0e;
+  --bg-card:      #0b0b0b;
+  --text:         #e8e8e6;
+  --text-muted:   #717171;
+  --text-faded:   #454545;
+  --border:       #1c1c1c;
+  --border-soft:  #131313;
+
+  /* Gold — primary accent */
+  --gold:         #c8a96a;
+  --gold-dim:     #a88a50;
+  --gold-soft:    rgba(200, 169, 106, 0.06);
+  --gold-border:  rgba(200, 169, 106, 0.18);
+
+  /* Status colours */
+  --green:        #22c55e;
+  --green-soft:   rgba(34, 197, 94, 0.07);
+  --red:          #ef4444;
+  --red-soft:     rgba(239, 68, 68, 0.07);
+  --red-border:   rgba(239, 68, 68, 0.20);
 }
 
 html {
@@ -39,21 +47,25 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
-  position: relative;
   overflow-x: hidden;
 }
 
+/* Subtle gold glow behind hero */
 body::before {
   content: '';
   position: fixed;
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 600px;
-  height: 600px;
-  background: radial-gradient(circle, rgba(153, 69, 255, 0.05) 0%, transparent 60%);
+  width: 700px;
+  height: 500px;
+  background: radial-gradient(
+    ellipse at 50% 0%,
+    rgba(200, 169, 106, 0.04) 0%,
+    transparent 65%
+  );
   pointer-events: none;
-  z-index: -1;
+  z-index: 0;
 }
 
 a {
@@ -66,23 +78,25 @@ button {
   -webkit-tap-highlight-color: transparent;
 }
 
-/* ============================================
+/* ============================================================
    Layout
-   ============================================ */
+   ============================================================ */
 .wrap {
   width: min(720px, 100%);
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 24px;
+  position: relative;
+  z-index: 1;
 }
 
-/* ============================================
+/* ============================================================
    Header
-   ============================================ */
+   ============================================================ */
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 18px 0;
+  padding: 20px 0;
   border-bottom: 1px solid var(--border-soft);
 }
 
@@ -93,52 +107,46 @@ button {
 }
 
 .logoMark {
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
   flex-shrink: 0;
 }
 
 .logoText {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 600;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
   color: var(--text);
-}
-
-.logoDot {
-  color: var(--purple);
-  margin: 0 1px;
 }
 
 .nav {
   display: flex;
-  gap: 18px;
+  gap: 20px;
 }
 
 .nav a {
-  font-family: 'JetBrains Mono', monospace;
   font-size: 12px;
   color: var(--text-muted);
   letter-spacing: 0.02em;
-  transition: color 0.2s ease;
+  transition: color 0.15s;
 }
 
 .nav a:hover {
   color: var(--text);
 }
 
-/* ============================================
+/* ============================================================
    Hero
-   ============================================ */
+   ============================================================ */
 .hero {
-  padding: 64px 0 48px;
+  padding: 72px 0 56px;
   text-align: center;
 }
 
 h1 {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: clamp(36px, 9vw, 48px);
+  font-size: clamp(34px, 8.5vw, 52px);
   font-weight: 500;
   line-height: 1.05;
   letter-spacing: -0.035em;
@@ -147,73 +155,124 @@ h1 {
 }
 
 h1 .accent {
-  color: var(--purple);
+  color: var(--gold);
 }
 
 .lead {
-  font-family: 'JetBrains Mono', monospace;
   font-size: 14px;
   color: var(--text-muted);
-  line-height: 1.6;
-  max-width: 380px;
+  line-height: 1.65;
+  max-width: 360px;
   margin: 0 auto 28px;
 }
 
 .trust {
-  font-family: 'JetBrains Mono', monospace;
   font-size: 11px;
   color: var(--text-faded);
-  letter-spacing: 0.02em;
-  margin-bottom: 48px;
+  letter-spacing: 0.03em;
+  margin-bottom: 52px;
 }
 
 .trust .dot {
   color: var(--border);
-  margin: 0 8px;
+  margin: 0 10px;
 }
 
-/* ============================================
-   Action zone (Connect, Scan, Reclaim)
-   ============================================ */
+/* ============================================================
+   Wallet pill (connected state)
+   ============================================================ */
+.walletPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.02);
+  padding: 7px 12px 7px 10px;
+  border-radius: 100px;
+  margin: 0 auto 28px;
+  max-width: 100%;
+}
+
+.walletPillDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 6px rgba(34, 197, 94, 0.55);
+  flex-shrink: 0;
+  animation: pulse 2.2s ease-in-out infinite;
+}
+
+.walletPillAddr {
+  font-size: 12px;
+  letter-spacing: 0.02em;
+}
+
+.walletPillDisconnect {
+  background: none;
+  border: none;
+  color: var(--text-faded);
+  font-family: inherit;
+  font-size: 11px;
+  cursor: pointer;
+  padding: 0 0 0 4px;
+  border-left: 1px solid var(--border);
+  margin-left: 4px;
+  padding-left: 10px;
+  line-height: 1;
+  transition: color 0.15s;
+}
+
+.walletPillDisconnect:hover:not(:disabled) {
+  color: var(--text);
+}
+
+.walletPillDisconnect:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.45; }
+}
+
+/* ============================================================
+   Action zone
+   ============================================================ */
 .actionZone {
   margin: 0 auto 48px;
   max-width: 360px;
-}
-
-.stepIndicator {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  color: var(--text-faded);
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  margin-bottom: 18px;
   text-align: center;
 }
 
-.stepIndicator .num {
-  color: var(--text-muted);
+.hint {
+  font-size: 11px;
+  color: var(--text-faded);
+  margin: 12px 0 0;
+  line-height: 1.5;
 }
 
-.stepIndicator .slash {
-  margin: 0 6px;
-  color: var(--border);
-}
-
+/* ============================================================
+   Buttons
+   ============================================================ */
 .btn {
   width: 100%;
-  height: 56px;
+  height: 52px;
   border: none;
-  border-radius: 12px;
-  font-family: 'JetBrains Mono', monospace;
+  border-radius: 10px;
+  font-family: inherit;
   font-size: 14px;
   font-weight: 500;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
-  transition: all 0.2s ease;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s;
   position: relative;
 }
 
@@ -221,224 +280,512 @@ h1 .accent {
   cursor: not-allowed;
 }
 
-.btnPrimary {
-  background: var(--purple);
-  color: white;
+/* Gold — primary CTA */
+.btnGold {
+  background: var(--gold);
+  color: #1a1100;
+  font-weight: 600;
   box-shadow:
-    0 0 0 1px rgba(153, 69, 255, 0.3),
-    0 8px 24px rgba(153, 69, 255, 0.25),
-    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    0 0 0 1px rgba(200, 169, 106, 0.25),
+    0 6px 20px rgba(200, 169, 106, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
 }
 
-.btnPrimary:hover:not(:disabled) {
+.btnGold:hover:not(:disabled) {
   transform: translateY(-1px);
   box-shadow:
-    0 0 0 1px rgba(153, 69, 255, 0.4),
-    0 12px 32px rgba(153, 69, 255, 0.35),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    0 0 0 1px rgba(200, 169, 106, 0.35),
+    0 10px 28px rgba(200, 169, 106, 0.26),
+    inset 0 1px 0 rgba(255, 255, 255, 0.20);
 }
 
-.btnPrimary:active:not(:disabled) {
+.btnGold:active:not(:disabled) {
   transform: translateY(0);
 }
 
-.btnPrimary:disabled {
-  background: var(--purple-soft);
+.btnGold:disabled {
+  background: rgba(200, 169, 106, 0.15);
   color: var(--text-faded);
-  box-shadow: 0 0 0 1px var(--border);
+  box-shadow: none;
 }
 
-.btnRecover {
-  background: linear-gradient(180deg, #14F195 0%, #0FD884 100%);
-  color: #0A0A0A;
-  font-weight: 600;
-  box-shadow:
-    0 0 0 1px rgba(20, 241, 149, 0.3),
-    0 8px 24px rgba(20, 241, 149, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
-}
-
-.btnRecover:hover:not(:disabled) {
-  transform: translateY(-1px);
-  box-shadow:
-    0 0 0 1px rgba(20, 241, 149, 0.4),
-    0 12px 32px rgba(20, 241, 149, 0.3);
-}
-
-.btnRecover:disabled {
-  background: var(--green-soft);
-  color: var(--text-faded);
-  box-shadow: 0 0 0 1px var(--border);
-}
-
-.reassurance {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  color: var(--text-faded);
-  text-align: center;
-  margin-top: 14px;
-  line-height: 1.5;
-}
-
-/* ============================================
-   Connection status pill
-   ============================================ */
-.connectionStatus {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
+/* Ghost — secondary/cancel */
+.btnGhost {
+  background: transparent;
   color: var(--text-muted);
   border: 1px solid var(--border);
+  box-shadow: none;
+}
+
+.btnGhost:hover:not(:disabled) {
+  border-color: var(--text-faded);
+  color: var(--text);
   background: rgba(255, 255, 255, 0.02);
-  padding: 8px 14px;
-  border-radius: 100px;
-  margin: 0 auto 24px;
 }
 
-.connectionStatus .dot {
-  width: 6px;
-  height: 6px;
+.btnGhost:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ============================================================
+   Spinner
+   ============================================================ */
+.spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(26, 17, 0, 0.25);
+  border-top-color: #1a1100;
   border-radius: 50%;
-  background: var(--green);
-  box-shadow: 0 0 8px rgba(20, 241, 149, 0.6);
-  animation: pulse 2s ease-in-out infinite;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
 }
 
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
-/* ============================================
-   Scan result (after scan)
-   ============================================ */
+/* ============================================================
+   Scan result (recoverable amount display)
+   ============================================================ */
 .scanResult {
   text-align: center;
-  padding: 24px 0 32px;
+  padding: 20px 0 28px;
 }
 
 .scanLabel {
-  font-family: 'JetBrains Mono', monospace;
   font-size: 11px;
   color: var(--text-faded);
-  letter-spacing: 0.15em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
 .scanAmount {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: clamp(64px, 18vw, 88px);
+  font-size: clamp(60px, 17vw, 84px);
   font-weight: 500;
   line-height: 1;
   letter-spacing: -0.04em;
-  color: var(--green);
-  margin-bottom: 8px;
+  color: var(--gold);
+  margin-bottom: 6px;
 }
 
-.scanAmountUnit {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 14px;
+.scanUnit {
+  font-size: 13px;
   color: var(--text-muted);
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
+  margin-bottom: 10px;
+}
+
+.scanSub {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 28px;
+}
+
+/* ============================================================
+   Fee breakdown table
+   ============================================================ */
+.feeBreakdown {
+  max-width: 360px;
+  margin: 0 auto 28px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg-elevated);
+  overflow: hidden;
+}
+
+.feeRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 11px 16px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.feeRow + .feeRow {
+  border-top: 1px solid var(--border-soft);
+}
+
+.feeDeduct {
+  color: var(--text-faded);
+}
+
+.feeDivider {
+  height: 1px;
+  background: var(--border);
+}
+
+.feeRowNet {
+  font-size: 13px;
+}
+
+.feeRowNet span:first-child {
+  color: var(--text);
+  font-weight: 500;
+}
+
+.feeNet {
+  color: var(--gold);
+  font-weight: 600;
+}
+
+/* ============================================================
+   Error banner
+   ============================================================ */
+.errorBanner {
+  margin-top: 14px;
+  padding: 12px 16px;
+  background: var(--red-soft);
+  border: 1px solid var(--red-border);
+  border-radius: 8px;
+  font-size: 12px;
+  color: #f87171;
+  line-height: 1.5;
+  text-align: left;
+}
+
+/* ============================================================
+   Empty state
+   ============================================================ */
+.emptyState {
+  padding: 32px 0 24px;
+  text-align: center;
+}
+
+.emptyIcon {
+  font-size: 28px;
+  color: var(--green);
+  margin-bottom: 12px;
+  line-height: 1;
+}
+
+.emptyTitle {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--text);
+  margin: 0 0 6px;
+}
+
+.emptyDesc {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 0 0 24px;
+}
+
+/* ============================================================
+   Success state
+   ============================================================ */
+.successState {
+  padding: 28px 0 20px;
+  text-align: center;
+}
+
+.successIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--green-soft);
+  border: 1px solid rgba(34, 197, 94, 0.25);
+  color: var(--green);
+  font-size: 18px;
   margin-bottom: 14px;
 }
 
-.scanContext {
-  font-family: 'JetBrains Mono', monospace;
+.successTitle {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--text);
+  margin: 0 0 6px;
+}
+
+.successDesc {
   font-size: 13px;
   color: var(--text-muted);
-  margin-bottom: 36px;
+  margin: 0 0 18px;
 }
 
-.txLink {
+.solscanLink {
   display: inline-block;
-  margin-top: 16px;
-  font-family: 'JetBrains Mono', monospace;
   font-size: 12px;
-  color: var(--purple);
-  text-decoration: none;
-  border-bottom: 1px solid var(--purple-border);
+  color: var(--gold);
+  border-bottom: 1px solid var(--gold-border);
   padding-bottom: 1px;
-  transition: opacity 0.2s;
+  margin-bottom: 24px;
+  transition: opacity 0.15s;
 }
 
-.txLink:hover { opacity: 0.7; }
+.solscanLink:hover {
+  opacity: 0.75;
+}
 
-/* ============================================
+/* ============================================================
+   Confirmation modal
+   ============================================================ */
+.confirmBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  background: rgba(0, 0, 0, 0.78);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  animation: fadeIn 0.18s ease;
+}
+
+@media (min-width: 600px) {
+  .confirmBackdrop {
+    align-items: center;
+    padding: 24px;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.confirmModal {
+  background: #0d0d0d;
+  border: 1px solid var(--border);
+  border-top: 1px solid rgba(200, 169, 106, 0.12);
+  border-radius: 18px 18px 0 0;
+  width: 100%;
+  max-width: 420px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow:
+    0 -24px 64px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(200, 169, 106, 0.04);
+  animation: slideUp 0.26s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+@media (min-width: 600px) {
+  .confirmModal {
+    border-radius: 16px;
+    border-top: 1px solid rgba(200, 169, 106, 0.12);
+    animation: scaleIn 0.2s cubic-bezier(0.32, 0.72, 0, 1);
+  }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.96); opacity: 0; }
+  to   { transform: scale(1);    opacity: 1; }
+}
+
+.confirmHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 22px 16px;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.confirmTitle {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0;
+  letter-spacing: -0.015em;
+}
+
+.confirmClose {
+  background: none;
+  border: none;
+  color: var(--text-faded);
+  font-size: 14px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: color 0.15s;
+  line-height: 1;
+}
+
+.confirmClose:hover {
+  color: var(--text);
+}
+
+.confirmBody {
+  padding: 18px 22px 14px;
+}
+
+.confirmRows {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.confirmRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 11px 14px;
+  font-size: 12px;
+  gap: 12px;
+}
+
+.confirmRow + .confirmRow {
+  border-top: 1px solid var(--border-soft);
+}
+
+.confirmKey {
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.confirmVal {
+  color: var(--text);
+  text-align: right;
+}
+
+.confirmValDeduct {
+  color: var(--text-faded);
+}
+
+.confirmDivider {
+  height: 1px;
+  background: var(--border);
+}
+
+.confirmRowNet {
+  background: var(--gold-soft);
+}
+
+.confirmRowNet .confirmKey {
+  color: var(--text);
+  font-weight: 500;
+}
+
+.confirmValNet {
+  color: var(--gold);
+  font-weight: 600;
+  font-size: 14px;
+  text-align: right;
+}
+
+.confirmMono {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+}
+
+.confirmWarning {
+  padding: 12px 14px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 11px;
+  color: var(--text-faded);
+  line-height: 1.55;
+  text-align: center;
+}
+
+.confirmActions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  padding: 16px 22px 22px;
+  border-top: 1px solid var(--border-soft);
+}
+
+@media (max-width: 360px) {
+  .confirmActions {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================================
    Section
-   ============================================ */
+   ============================================================ */
 .section {
   padding: 64px 0;
   border-top: 1px solid var(--border-soft);
 }
 
 .sectionLabel {
-  font-family: 'JetBrains Mono', monospace;
   font-size: 11px;
   color: var(--text-faded);
-  letter-spacing: 0.15em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   margin-bottom: 20px;
 }
 
 h2 {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 28px;
+  font-size: 26px;
   font-weight: 500;
-  line-height: 1.15;
+  line-height: 1.2;
   letter-spacing: -0.02em;
   color: var(--text);
   margin: 0 0 32px;
 }
 
-/* ============================================
+/* ============================================================
    Steps (How it works)
-   ============================================ */
+   ============================================================ */
 .steps {
   display: flex;
   flex-direction: column;
-  gap: 0;
 }
 
 .step {
   display: flex;
   align-items: baseline;
   gap: 16px;
-  padding: 16px 0;
+  padding: 15px 0;
   border-bottom: 1px solid var(--border-soft);
 }
 
-.step:last-child { border-bottom: none; }
+.step:last-child {
+  border-bottom: none;
+}
 
 .stepNum {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
+  font-size: 11px;
   color: var(--text-faded);
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
   flex-shrink: 0;
-  width: 32px;
+  width: 28px;
 }
 
 .stepName {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 500;
   color: var(--text);
-  margin-right: auto;
+  flex: 1;
 }
 
 .stepDesc {
-  font-family: 'JetBrains Mono', monospace;
   font-size: 12px;
   color: var(--text-faded);
 }
 
-/* ============================================
-   Cards (Built simple, Security)
-   ============================================ */
+/* ============================================================
+   Cards
+   ============================================================ */
 .cards {
   display: flex;
   flex-direction: column;
@@ -450,41 +797,39 @@ h2 {
 }
 
 .card {
-  background: var(--bg);
-  padding: 24px;
+  background: var(--bg-card);
+  padding: 22px 24px;
 }
 
 .cardLabel {
-  font-family: 'JetBrains Mono', monospace;
   font-size: 10px;
   color: var(--text-faded);
-  letter-spacing: 0.15em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   margin-bottom: 8px;
 }
 
 .cardTitle {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 500;
   color: var(--text);
   margin: 0 0 6px;
 }
 
 .cardDesc {
-  font-family: 'JetBrains Mono', monospace;
   font-size: 13px;
   color: var(--text-muted);
   line-height: 1.55;
   margin: 0;
 }
 
-/* ============================================
+/* ============================================================
    FAQ
-   ============================================ */
+   ============================================================ */
 details {
   border-bottom: 1px solid var(--border-soft);
-  padding: 18px 0;
+  padding: 17px 0;
 }
 
 details:first-of-type {
@@ -501,17 +846,21 @@ summary {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 12px;
 }
 
-summary::-webkit-details-marker { display: none; }
+summary::-webkit-details-marker {
+  display: none;
+}
 
 summary::after {
   content: '+';
   font-family: 'JetBrains Mono', monospace;
-  color: var(--text-muted);
+  color: var(--text-faded);
   font-weight: 400;
   font-size: 18px;
-  transition: transform 0.2s;
+  flex-shrink: 0;
+  transition: transform 0.18s;
 }
 
 details[open] summary::after {
@@ -519,32 +868,15 @@ details[open] summary::after {
 }
 
 details p {
-  font-family: 'JetBrains Mono', monospace;
   font-size: 13px;
   color: var(--text-muted);
-  line-height: 1.6;
+  line-height: 1.62;
   margin: 12px 0 0;
 }
 
-/* ============================================
-   Notice / status messages
-   ============================================ */
-.notice {
-  margin-top: 20px;
-  padding: 14px 16px;
-  border: 1px solid var(--border);
-  background: rgba(255, 255, 255, 0.015);
-  border-radius: 10px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
-  color: var(--text-muted);
-  line-height: 1.55;
-  text-align: center;
-}
-
-/* ============================================
+/* ============================================================
    Footer
-   ============================================ */
+   ============================================================ */
 .footer {
   padding: 48px 0 64px;
   border-top: 1px solid var(--border-soft);
@@ -554,414 +886,50 @@ details p {
 .footerBrand {
   font-family: 'Space Grotesk', sans-serif;
   font-size: 15px;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--text);
   margin-bottom: 8px;
+  letter-spacing: -0.01em;
+}
+
+.footerDot {
+  color: var(--gold);
+  margin: 0 1px;
 }
 
 .footerTagline {
-  font-family: 'JetBrains Mono', monospace;
   font-size: 12px;
   color: var(--text-muted);
-  margin-bottom: 24px;
-  line-height: 1.6;
+  margin-bottom: 22px;
+  line-height: 1.65;
 }
 
 .footerMeta {
-  font-family: 'JetBrains Mono', monospace;
   font-size: 11px;
   color: var(--text-faded);
-  line-height: 1.7;
+  line-height: 1.75;
 }
 
 .footerMeta a {
   color: var(--text-muted);
+  transition: color 0.15s;
 }
 
-/* ============================================
+.footerMeta a:hover {
+  color: var(--text);
+}
+
+/* ============================================================
    Responsive
-   ============================================ */
+   ============================================================ */
 @media (max-width: 480px) {
-  .wrap { padding: 0 16px; }
-  .hero { padding: 48px 0 36px; }
-  .section { padding: 48px 0; }
-  .nav { gap: 14px; }
-  .nav a { font-size: 11px; }
-  .header { padding: 16px 0; }
-  .card { padding: 20px; }
-}
-/* ============================================
-   PATCH: Add btnSecondary class to globals.css
-   ============================================
-   
-   This is a PATCH file — Replit Agent should APPEND
-   the CSS below to the existing app/globals.css file
-   (do NOT replace the whole file, just append at the end).
-   
-   The btnSecondary class is for the "Disconnect Wallet" button:
-   - Transparent background
-   - Subtle gray border  
-   - Muted text color
-   - Smooth hover transition
-   - Visually secondary to btnPrimary (purple)
-*/
-
-.btnSecondary {
-  background: transparent;
-  color: var(--text-muted);
-  border: 1px solid var(--border);
-  box-shadow: none;
-}
-
-.btnSecondary:hover:not(:disabled) {
-  border-color: var(--text-muted);
-  color: var(--text);
-  background: rgba(255, 255, 255, 0.02);
-}
-
-.btnSecondary:active:not(:disabled) {
-  background: rgba(255, 255, 255, 0.04);
-}
-
-.btnSecondary:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-/* ============================================
-/* ============================================
-   PATCH: Wallet Modal Styles (v2 — wallet-adapter)
-   ============================================
-   
-   IMPORTANT FOR REPLIT AGENT:
-   This is a PATCH file. APPEND its contents to the END of
-   the existing app/globals.css. DO NOT replace the whole file.
-   The existing CSS for the rest of the app must remain intact.
-*/
-
-/* Backdrop — full-screen blur overlay behind the modal */
-.walletModalBackdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 1000;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  padding: 0;
-  animation: walletModalFadeIn 0.2s ease-out;
-}
-
-@media (min-width: 640px) {
-  .walletModalBackdrop {
-    align-items: center;
-    padding: 24px;
-  }
-}
-
-@keyframes walletModalFadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-/* Modal container */
-.walletModalContainer {
-  background: #0F0F10;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 20px 20px 0 0;
-  width: 100%;
-  max-width: 440px;
-  max-height: 92vh;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  box-shadow:
-    0 -20px 60px rgba(0, 0, 0, 0.5),
-    0 0 0 1px rgba(153, 69, 255, 0.05),
-    inset 0 1px 0 rgba(255, 255, 255, 0.04);
-  animation: walletModalSlideUp 0.25s cubic-bezier(0.32, 0.72, 0, 1);
-}
-
-@media (min-width: 640px) {
-  .walletModalContainer {
-    border-radius: 18px;
-    max-height: 80vh;
-    animation: walletModalScale 0.2s cubic-bezier(0.32, 0.72, 0, 1);
-  }
-}
-
-@keyframes walletModalSlideUp {
-  from { transform: translateY(100%); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
-
-@keyframes walletModalScale {
-  from { transform: scale(0.96); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
-}
-
-/* Header */
-.walletModalHeader {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  padding: 24px 24px 18px;
-  gap: 12px;
-}
-
-.walletModalTitleGroup {
-  flex: 1;
-  min-width: 0;
-}
-
-.walletModalTitle {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 20px;
-  font-weight: 600;
-  color: var(--text);
-  letter-spacing: -0.02em;
-  margin: 0 0 4px;
-  line-height: 1.2;
-}
-
-.walletModalSubtitle {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
-  color: var(--text-muted);
-  margin: 0;
-  letter-spacing: 0.01em;
-}
-
-.walletModalClose {
-  flex-shrink: 0;
-  width: 36px;
-  height: 36px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  color: var(--text-muted);
-  border-radius: 10px;
-  cursor: pointer;
-  transition: all 0.15s ease;
-  padding: 0;
-}
-
-.walletModalClose:hover {
-  background: rgba(255, 255, 255, 0.08);
-  color: var(--text);
-  border-color: rgba(255, 255, 255, 0.12);
-}
-
-.walletModalClose:active {
-  transform: scale(0.95);
-}
-
-/* Wallet list */
-.walletList {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  padding: 6px 16px 16px;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
-/* Wallet item */
-.walletItem {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  width: 100%;
-  padding: 12px 14px;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
-  cursor: pointer;
-  transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
-  text-align: left;
-  font-family: inherit;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.walletItem:hover:not(:disabled) {
-  background: rgba(153, 69, 255, 0.06);
-  border-color: rgba(153, 69, 255, 0.20);
-  transform: translateY(-1px);
-}
-
-.walletItem:active:not(:disabled) {
-  transform: translateY(0);
-  background: rgba(153, 69, 255, 0.08);
-}
-
-.walletItem:disabled {
-  cursor: not-allowed;
-  opacity: 0.5;
-}
-
-.walletItemConnecting {
-  background: rgba(153, 69, 255, 0.10);
-  border-color: rgba(153, 69, 255, 0.30);
-  opacity: 1 !important;
-}
-
-/* Wallet icon */
-.walletIconWrap {
-  flex-shrink: 0;
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
-  overflow: hidden;
-  background: rgba(255, 255, 255, 0.04);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.walletIcon {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.walletIconFallback {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Space Grotesk', sans-serif;
-  font-weight: 600;
-  font-size: 18px;
-  color: var(--purple);
-  background: rgba(153, 69, 255, 0.10);
-}
-
-/* Wallet text info */
-.walletInfo {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.walletName {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 15px;
-  font-weight: 500;
-  color: var(--text);
-  line-height: 1.2;
-  letter-spacing: -0.01em;
-}
-
-.walletInstalled {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  font-weight: 400;
-  color: var(--green);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  margin-left: 4px;
-}
-
-.walletDesc {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  color: var(--text-faded);
-  line-height: 1.3;
-  letter-spacing: 0.01em;
-}
-
-.walletItemConnecting .walletDesc {
-  color: var(--purple);
-}
-
-/* Arrow indicator */
-.walletArrow {
-  flex-shrink: 0;
-  color: var(--text-faded);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.18s ease, color 0.18s ease;
-}
-
-.walletItem:hover:not(:disabled) .walletArrow {
-  color: var(--purple);
-  transform: translateX(2px);
-}
-
-/* Empty state */
-.walletEmpty {
-  padding: 32px 24px;
-  text-align: center;
-  font-family: 'JetBrains Mono', monospace;
-}
-
-.walletEmpty p {
-  margin: 0 0 8px;
-  font-size: 14px;
-  color: var(--text);
-}
-
-.walletEmptyHint {
-  font-size: 12px !important;
-  color: var(--text-muted) !important;
-}
-
-/* Error message */
-.walletError {
-  margin: 0 16px 12px;
-  padding: 10px 14px;
-  background: rgba(239, 68, 68, 0.08);
-  border: 1px solid rgba(239, 68, 68, 0.20);
-  border-radius: 10px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
-  color: #f87171;
-  text-align: center;
-}
-
-/* Footer */
-.walletModalFooter {
-  padding: 14px 24px 22px;
-  border-top: 1px solid rgba(255, 255, 255, 0.04);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  color: var(--text-faded);
-  text-align: center;
-}
-
-.walletModalLink {
-  color: var(--purple);
-  text-decoration: none;
-  transition: opacity 0.15s ease;
-}
-
-.walletModalLink:hover {
-  opacity: 0.7;
-}
-
-/* Mobile tweaks */
-@media (max-width: 480px) {
-  .walletModalHeader {
-    padding: 22px 20px 16px;
-  }
-  .walletList {
-    padding: 4px 12px 12px;
-  }
-  .walletItem {
-    padding: 11px 12px;
-  }
-  .walletModalFooter {
-    padding: 12px 20px 20px;
-  }
-  .walletEmpty {
-    padding: 28px 20px;
-  }
+  .wrap          { padding: 0 18px; }
+  .hero          { padding: 52px 0 40px; }
+  .section       { padding: 48px 0; }
+  .nav           { gap: 16px; }
+  .nav a         { font-size: 11px; }
+  .header        { padding: 16px 0; }
+  .card          { padding: 18px 20px; }
+  .actionZone    { max-width: 100%; }
+  .feeBreakdown  { max-width: 100%; }
 }
