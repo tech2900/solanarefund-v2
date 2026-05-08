@@ -133,76 +133,36 @@ export default function Page() {
           <h2>Questions, answered.</h2>
 
           <details open>
-            <summary>What does SolanaRefund do?</summary>
+            <summary>What is SolanaRefund?</summary>
             <p>
-              SolanaRefund scans your Solana wallet for unused token accounts
-              and helps you recover SOL locked as rent by closing empty
-              accounts safely.
+              SolanaRefund is a non-custodial web tool that scans your Solana
+              wallet for empty token accounts and helps you recover the SOL
+              locked inside them as rent. No sign-up required.
             </p>
           </details>
           <details>
-            <summary>Do I need to share my seed phrase?</summary>
+            <summary>Is SolanaRefund non-custodial?</summary>
             <p>
-              No. SolanaRefund never asks for your seed phrase or private key.
-              You connect your wallet and approve every transaction yourself.
+              Yes. SolanaRefund never holds your funds or controls your wallet.
+              You connect your own wallet and approve every transaction
+              yourself. Nothing is signed without your explicit confirmation.
             </p>
           </details>
           <details>
-            <summary>Why is SOL locked in token accounts?</summary>
+            <summary>What does SolanaRefund scan?</summary>
             <p>
-              On Solana, every token account requires a small SOL deposit
-              (~0.002 SOL) as rent-exempt balance. When the account empties,
-              that SOL stays locked until the account is closed.
+              SolanaRefund scans your wallet for Solana token accounts with a
+              zero token balance. These are empty accounts that still hold a
+              small amount of SOL (~0.002 SOL each) as rent-exempt deposit.
+              Closing them returns that SOL to your wallet.
             </p>
           </details>
           <details>
-            <summary>How much can I recover?</summary>
+            <summary>Does SolanaRefund ask for my seed phrase?</summary>
             <p>
-              Each empty account holds roughly 0.002 SOL. Active wallets often
-              have dozens of them. The exact amount is shown after scanning —
-              no signup required.
-            </p>
-          </details>
-          <details>
-            <summary>What is the fee?</summary>
-            <p>
-              SolanaRefund takes 5% of recovered SOL. The fee breakdown is
-              shown clearly before you sign anything. There is no upfront cost.
-            </p>
-          </details>
-          <details>
-            <summary>Can SolanaRefund recover stolen SOL?</summary>
-            <p>
-              No. SolanaRefund only closes empty token accounts. It cannot
-              recover funds that were taken from your wallet by a third party.
-            </p>
-          </details>
-          <details>
-            <summary>Will tokens be burned automatically?</summary>
-            <p>
-              No. Tokens are never burned automatically. SolanaRefund only
-              closes accounts that already have a zero token balance.
-            </p>
-          </details>
-          <details>
-            <summary>Is this a gas fee refund?</summary>
-            <p>
-              No. This is not a gas-fee refund. SolanaRefund recovers SOL
-              locked as rent inside unused Solana token accounts.
-            </p>
-          </details>
-          <details>
-            <summary>Is SolanaRefund affiliated with Solana?</summary>
-            <p>
-              No. SolanaRefund is an independent tool and is not affiliated
-              with the Solana Foundation or any wallet provider.
-            </p>
-          </details>
-          <details>
-            <summary>How do I know I am on the real website?</summary>
-            <p>
-              Always verify the domain before connecting: solanarefund.xyz.
-              SolanaRefund will never ask for your seed phrase or private key.
+              No. SolanaRefund will never ask for your seed phrase, private
+              key, or recovery phrase. If any website claiming to be
+              SolanaRefund asks for these, it is not us.
             </p>
           </details>
         </section>
