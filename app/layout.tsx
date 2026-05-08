@@ -14,7 +14,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL("https://solanarefund.xyz"),
   title: {
-    default: "SolanaRefund — Reclaim Unused SOL From Your Wallet",
+    default: "SolanaRefund — Get Your Free SOL Back",
     template: "%s | SolanaRefund",
   },
   description:
@@ -22,21 +22,12 @@ export const metadata: Metadata = {
   applicationName: "SolanaRefund",
   authors: [{ name: "SolanaRefund" }],
   keywords: [
-    "solana refund",
+    "Solana refund",
     "recover SOL",
     "reclaim SOL",
     "close token accounts",
-    "solana rent",
-    "burn tokens",
-    "solana wallet cleanup",
-    "free SOL back",
-    "locked SOL",
-    "solana rent refund",
-    "close empty token accounts",
-    "SPL token accounts",
-    "solana account cleanup",
-    "Phantom wallet cleaner",
-    "Solflare wallet cleaner",
+    "Solana rent",
+    "wallet cleanup",
   ],
   referrer: "origin-when-cross-origin",
   creator: "SolanaRefund",
@@ -62,10 +53,10 @@ export const metadata: Metadata = {
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
   },
   openGraph: {
-    title: "SolanaRefund — Reclaim Unused SOL From Your Wallet",
+    title: "SolanaRefund — Get Your Free SOL Back",
     description:
       "Recover unused SOL from empty Solana token accounts. Connect your wallet, scan safely, and reclaim rent in seconds.",
-    url: "https://solanarefund.xyz",
+    url: "https://solanarefund.xyz/",
     siteName: "SolanaRefund",
     type: "website",
     locale: "en_US",
@@ -81,7 +72,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "SolanaRefund — Reclaim Unused SOL From Your Wallet",
+    title: "SolanaRefund — Get Your Free SOL Back",
     description:
       "Recover unused SOL from empty Solana token accounts. Connect your wallet, scan safely, and reclaim rent in seconds.",
     images: ["/og-image.png"],
