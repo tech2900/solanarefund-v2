@@ -5,10 +5,11 @@
     "start": "next start -p 5000 -H 0.0.0.0"
   },
   "dependencies": {
-    "@reown/appkit": "latest",
-    "@reown/appkit-adapter-solana": "latest",
-    "@solana/spl-token": "latest",
-    "@solana/web3.js": "latest",
+    "@solana/wallet-adapter-base": "^0.9.27",
+    "@solana/wallet-adapter-react": "^0.15.39",
+    "@solana/wallet-adapter-wallets": "^0.19.36",
+    "@solana/web3.js": "^1.95.0",
+    "@solana/spl-token": "^0.4.0",
     "next": "latest",
     "react": "latest",
     "react-dom": "latest"

@@ -1,10 +1,10 @@
 "use client";
 import { useCallback, useMemo, useState } from "react";
-import { useAppKit, useAppKitAccount, useAppKitProvider, useDisconnect } from "@reown/appkit/react";
-import { useAppKitConnection, type Provider } from "@reown/appkit-adapter-solana/react";
+import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { PublicKey, SystemProgram, Transaction } from "@solana/web3.js";
 import { TOKEN_2022_PROGRAM_ID, TOKEN_PROGRAM_ID, createCloseAccountInstruction } from "@solana/spl-token";
 import { ScanResult, splitIntoBatches, solText, shortAddress } from "@/lib/solana";
+import { WalletModal } from "@/components/WalletModal";
 
 const FEE_WALLET = process.env.NEXT_PUBLIC_FEE_WALLET || "EUsMmpF9iP3JFUDW8JdsEMorvZ1Brer2kywgjb9TWjcw";
 const SERVICE_FEE_BPS = Number(process.env.NEXT_PUBLIC_SERVICE_FEE_BPS || "500");
@@ -13,17 +13,19 @@ const MAX_BATCH_SIZE = Number(process.env.NEXT_PUBLIC_MAX_BATCH_SIZE || "10");
 type StatusKind = "idle" | "scanning" | "ready" | "recovering" | "done" | "error";
 
 export function WalletMachine() {
-  const { open } = useAppKit();
-  const { address, isConnected } = useAppKitAccount();
-  const { walletProvider } = useAppKitProvider<Provider>("solana");
-  const { connection } = useAppKitConnection();
-  const { disconnect } = useDisconnect();
+  const { connection } = useConnection();
+  const { publicKey, connected, disconnect, sendTransaction } = useWallet();
 
   const [statusKind, setStatusKind] = useState<StatusKind>("idle");
   const [message, setMessage] = useState("");
   const [scan, setScan] = useState<ScanResult | null>(null);
   const [lastTx, setLastTx] = useState<string | null>(null);
   const [isDisconnecting, setIsDisconnecting] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Address as base58 string (matches the original API)
+  const address = publicKey?.toBase58() || null;
+  const isConnected = connected && Boolean(address);
 
   const readyLamports = scan?.recoverableLamports || 0;
   const readySol = solText(readyLamports);
@@ -34,11 +36,18 @@ export function WalletMachine() {
     return `Connected · ${shortAddress(address)}`;
   }, [isConnected, address]);
 
+  const handleConnectClick = useCallback(() => {
+    setIsModalOpen(true);
+  }, []);
+
+  const handleModalClose = useCallback(() => {
+    setIsModalOpen(false);
+  }, []);
+
   const handleDisconnect = useCallback(async () => {
     setIsDisconnecting(true);
     try {
       await disconnect();
-      // Reset all state after disconnect
       setScan(null);
       setStatusKind("idle");
       setMessage("");
@@ -51,7 +60,7 @@ export function WalletMachine() {
   }, [disconnect]);
 
   const scanWallet = useCallback(async () => {
-    if (!address) { await open({ view: "Connect" }); return; }
+    if (!address) { setIsModalOpen(true); return; }
     setStatusKind("scanning"); setMessage("Scanning wallet..."); setLastTx(null);
     try {
       const res = await fetch(`/api/scan?address=${encodeURIComponent(address)}`, { method: "GET", headers: { "Accept": "application/json" } });
@@ -60,11 +69,11 @@ export function WalletMachine() {
       setScan(data); setStatusKind("ready");
       setMessage(data.emptyAccounts.length === 0 ? "Your wallet looks clean. No recoverable SOL found." : "");
     } catch { setStatusKind("error"); setMessage("Scan failed. Please try again."); }
-  }, [address, open]);
+  }, [address]);
 
   const buildTransaction = useCallback(async (accounts: ScanResult["emptyAccounts"]) => {
-    if (!address) throw new Error("Wallet not connected.");
-    const owner = new PublicKey(address);
+    if (!publicKey) throw new Error("Wallet not connected.");
+    const owner = publicKey;
     const tx = new Transaction();
     let reclaimLamports = 0;
 
@@ -84,10 +93,10 @@ export function WalletMachine() {
     tx.feePayer = owner;
     tx.recentBlockhash = blockhash;
     return tx;
-  }, [address, connection]);
+  }, [publicKey, connection]);
 
   const recoverSol = useCallback(async () => {
-    if (!scan || !walletProvider || !address) return;
+    if (!scan || !publicKey) return;
     const batches = splitIntoBatches(scan.emptyAccounts, MAX_BATCH_SIZE);
     if (batches.length === 0) { setMessage("No empty accounts to close."); return; }
     setStatusKind("recovering");
@@ -97,8 +106,7 @@ export function WalletMachine() {
       for (let i = 0; i < batches.length; i++) {
         setMessage(`Confirm in wallet · Batch ${i + 1} of ${batches.length}`);
         const tx = await buildTransaction(batches[i]);
-        const result = await walletProvider.signAndSendTransaction(tx);
-        const signature = typeof result === "string" ? result : (result as { signature?: string })?.signature || String(result);
+        const signature = await sendTransaction(tx, connection);
         lastSignature = signature;
         await connection.confirmTransaction(signature, "confirmed");
       }
@@ -110,7 +118,7 @@ export function WalletMachine() {
       setStatusKind("error");
       setMessage("Recovery cancelled or failed. Nothing was completed.");
     }
-  }, [address, buildTransaction, connection, scan, scanWallet, walletProvider]);
+  }, [publicKey, buildTransaction, connection, scan, scanWallet, sendTransaction]);
 
   // Determine which state to render (progressive disclosure)
   const showInitial = !isConnected;
@@ -148,7 +156,7 @@ export function WalletMachine() {
           <div className="stepIndicator">
             <span className="num">01</span><span className="slash">/</span>Connect your wallet
           </div>
-          <button className="btn btnPrimary" onClick={() => open({ view: "Connect" })}>
+          <button className="btn btnPrimary" onClick={handleConnectClick}>
             Connect Wallet
           </button>
           <div className="reassurance">SolanaRefund will never ask for your seed phrase.</div>
@@ -237,6 +245,9 @@ export function WalletMachine() {
           )}
         </>
       )}
+
+      {/* Custom wallet modal — uses real wallet-adapter wallets with their official icons */}
+      <WalletModal isOpen={isModalOpen} onClose={handleModalClose} />
     </div>
   );
 }
