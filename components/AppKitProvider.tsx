@@ -33,11 +33,13 @@ createAppKit({
   },
   themeMode: "dark",
   themeVariables: {
-    "--w3m-accent": "#9945FF",
-    "--w3m-border-radius-master": "12px",
-    "--w3m-font-family": "JetBrains Mono, monospace",
-    "--w3m-font-size-master": "14px",
-    "--w3m-z-index": 99999,
+    "--w3m-accent":               "#9945FF",
+    "--w3m-color-mix":            "#0a0a0f",
+    "--w3m-color-mix-strength":   40,
+    "--w3m-border-radius-master": "10px",
+    "--w3m-font-family":          "inherit",
+    "--w3m-font-size-master":     "14px",
+    "--w3m-z-index":              99999,
   },
   // Wallet IDs verified from sol-incinerator's wallet-vendor JS bundle (64-char hex)
   featuredWalletIds: [
