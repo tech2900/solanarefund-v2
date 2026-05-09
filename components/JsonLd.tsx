@@ -121,7 +121,7 @@ export function JsonLd() {
     ]
   };
 
-  // Schema 5: FAQPage — matches the 4 visible FAQ items on the page
+  // Schema 5: FAQPage — matches the 5 visible FAQ items on the page
   const faq = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -132,7 +132,15 @@ export function JsonLd() {
         "name": "What is SolanaRefund?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "SolanaRefund is a non-custodial web tool that scans your Solana wallet for empty token accounts and helps you recover the SOL locked inside them as rent. No sign-up required."
+          "text": "SolanaRefund helps you scan your Solana wallet for empty token accounts that may hold unused SOL from rent deposits, then lets you review and reclaim eligible SOL safely. No sign-up required."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How does SolanaRefund recover SOL?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Solana wallets can accumulate empty token accounts that still hold small rent balances (~0.002 SOL each). SolanaRefund checks for eligible empty accounts and prepares a transaction for you to review before anything is signed."
         }
       },
       {
@@ -140,23 +148,23 @@ export function JsonLd() {
         "name": "Is SolanaRefund non-custodial?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes. SolanaRefund never holds your funds or controls your wallet. You connect your own wallet and approve every transaction yourself. Nothing is signed without your explicit confirmation."
+          "text": "Yes. SolanaRefund does not ask for your seed phrase or private key. You connect your wallet, review the result, and approve any action directly inside your wallet. Nothing is signed without your explicit confirmation."
         }
       },
       {
         "@type": "Question",
-        "name": "What does SolanaRefund scan?",
+        "name": "Which wallets does SolanaRefund support?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "SolanaRefund scans your wallet for Solana token accounts with a zero token balance. These are empty accounts that still hold a small amount of SOL (~0.002 SOL each) as rent-exempt deposit. Closing them returns that SOL to your wallet."
+          "text": "SolanaRefund works with popular Solana wallets such as Phantom, Solflare, Jupiter, and other compatible Solana wallet browsers."
         }
       },
       {
         "@type": "Question",
-        "name": "Does SolanaRefund ask for my seed phrase?",
+        "name": "What does \"Wallet looks clean\" mean?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "No. SolanaRefund will never ask for your seed phrase, private key, or recovery phrase. If any website claiming to be SolanaRefund asks for these, it is not us."
+          "text": "It means the scan did not find eligible empty token accounts with reclaimable SOL in the connected wallet. Your wallet cleanup is already complete, or this wallet has no unused token accounts to close."
         }
       }
     ]
