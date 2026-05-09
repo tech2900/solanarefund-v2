@@ -171,8 +171,16 @@ h1 .accent {
   font-size: 14px;
   color: var(--text-muted);
   line-height: 1.65;
-  max-width: 360px;
+  max-width: 380px;
   margin: 0 auto 28px;
+}
+
+.seoPara {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.68;
+  margin: 0 0 32px;
+  max-width: 560px;
 }
 
 .trust {
