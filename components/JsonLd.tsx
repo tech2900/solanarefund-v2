@@ -48,7 +48,7 @@ export function JsonLd() {
     "operatingSystem": "Web Browser",
     "browserRequirements": "Requires JavaScript and a Solana wallet (Phantom, Solflare, Backpack, etc.)",
     "screenshot": "https://solanarefund.xyz/og-image.png",
-    "description": "SolanaRefund scans your Solana wallet for unused token accounts and helps you recover SOL locked as rent-exempt balance by closing empty accounts safely. No seed phrase required, non-custodial, you approve every action.",
+    "description": "SolanaRefund helps users scan Solana wallets for empty token accounts and recover unused SOL from eligible accounts. Non-custodial, no seed phrase required, you approve every action inside your wallet.",
     "featureList": [
       "Scan Solana wallets for unused token accounts",
       "Identify recoverable rent-exempt SOL",
@@ -121,7 +121,7 @@ export function JsonLd() {
     ]
   };
 
-  // Schema 5: FAQPage — matches the 5 visible FAQ items on the page
+  // Schema 5: FAQPage — matches the 10 visible FAQ items on the page
   const faq = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -132,15 +132,31 @@ export function JsonLd() {
         "name": "What is SolanaRefund?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "SolanaRefund helps you scan your Solana wallet for empty token accounts that may hold unused SOL from rent deposits, then lets you review and reclaim eligible SOL safely. No sign-up required."
+          "text": "SolanaRefund is a Solana wallet cleanup tool that helps you scan for empty token accounts and recover unused SOL from eligible accounts. It is designed for users who want a simple way to reclaim SOL safely."
         }
       },
       {
         "@type": "Question",
-        "name": "How does SolanaRefund recover SOL?",
+        "name": "How can I recover SOL from my Solana wallet?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Solana wallets can accumulate empty token accounts that still hold small rent balances (~0.002 SOL each). SolanaRefund checks for eligible empty accounts and prepares a transaction for you to review before anything is signed."
+          "text": "Connect your Solana wallet, run a read-only scan, and SolanaRefund will check for eligible empty token accounts. If recoverable SOL is found, you can review the details and approve the transaction inside your wallet."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is Solana rent recovery?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Some Solana token accounts hold small rent balances. When an eligible empty token account is closed, that rent can be returned to the wallet. SolanaRefund helps identify these accounts and prepare a reviewable transaction."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What are empty token accounts?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Empty token accounts are Solana token accounts with no token balance. Some of them may still hold rent deposits that can be reclaimed when the account is safely closed."
         }
       },
       {
@@ -148,15 +164,15 @@ export function JsonLd() {
         "name": "Is SolanaRefund non-custodial?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes. SolanaRefund does not ask for your seed phrase or private key. You connect your wallet, review the result, and approve any action directly inside your wallet. Nothing is signed without your explicit confirmation."
+          "text": "Yes. SolanaRefund does not ask for your seed phrase or private key. You connect your wallet, scan public wallet data, and approve any action directly inside your wallet."
         }
       },
       {
         "@type": "Question",
-        "name": "Which wallets does SolanaRefund support?",
+        "name": "Does SolanaRefund work with Phantom, Solflare, and Jupiter?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "SolanaRefund works with popular Solana wallets such as Phantom, Solflare, Jupiter, and other compatible Solana wallet browsers."
+          "text": "Yes. SolanaRefund is designed to work with popular Solana wallets and wallet browsers, including Phantom, Solflare, Jupiter, and other compatible Solana wallet adapters."
         }
       },
       {
@@ -164,7 +180,31 @@ export function JsonLd() {
         "name": "What does \"Wallet looks clean\" mean?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "It means the scan did not find eligible empty token accounts with reclaimable SOL in the connected wallet. Your wallet cleanup is already complete, or this wallet has no unused token accounts to close."
+          "text": "It means the scan did not find eligible empty token accounts with reclaimable SOL in the connected wallet."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can SolanaRefund recover crypto from every blockchain?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. SolanaRefund is focused on Solana. It is designed to help users recover unused SOL from eligible Solana token accounts, not recover assets from unrelated blockchains."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the safest way to close unused Solana token accounts?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The safest approach is to use a non-custodial tool that scans first, shows eligible empty accounts, and lets you review the transaction inside your wallet before signing. SolanaRefund follows this flow."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why do people search for \"recover SOL\" or \"Solana refund\"?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Many Solana users have small amounts of SOL locked in unused token accounts. SolanaRefund helps detect eligible accounts so users can reclaim unused SOL safely."
         }
       }
     ]
