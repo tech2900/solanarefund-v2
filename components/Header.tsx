@@ -11,7 +11,7 @@ export function Header() {
           <path
             d="M40 8 L66 18 L66 38 C66 54 54 66 40 72 C26 66 14 54 14 38 L14 18 Z"
             fill="none"
-            stroke="#9B5CFF"
+            stroke="#D84D73"
             strokeWidth="2.5"
             strokeLinejoin="round"
           />
@@ -22,7 +22,7 @@ export function Header() {
             fontFamily="JetBrains Mono, monospace"
             fontSize="26"
             fontWeight="600"
-            fill="#9B5CFF"
+            fill="#D84D73"
           >
             S
           </text>
