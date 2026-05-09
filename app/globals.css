@@ -1,6 +1,6 @@
 /* ============================================================
    SolanaRefund — Production Stylesheet
-   Brand: maximum black · Mallow accent #D84D73
+   Brand: maximum black · Solana gradient #9945FF → #00C2FF → #14F195
    ============================================================ */
 
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
@@ -25,11 +25,11 @@
   --gold-soft:    rgba(200, 169, 106, 0.06);
   --gold-border:  rgba(200, 169, 106, 0.18);
 
-  /* Mallow — primary brand accent */
-  --purple:       #D84D73;
-  --purple-light: #C994C7;
-  --purple-soft:  rgba(216, 77, 115, 0.08);
-  --purple-glow:  rgba(216, 77, 115, 0.28);
+  /* Solana — primary brand accent */
+  --purple:       #9945FF;
+  --purple-light: #14F195;
+  --purple-soft:  rgba(153, 69, 255, 0.08);
+  --purple-glow:  rgba(20, 241, 149, 0.18);
 
   /* Status colours */
   --green:        #22c55e;
@@ -56,7 +56,7 @@ body {
   overflow-x: hidden;
 }
 
-/* Subtle Mallow glow behind hero */
+/* Subtle Solana glow behind hero */
 body::before {
   content: '';
   position: fixed;
@@ -67,7 +67,7 @@ body::before {
   height: 500px;
   background: radial-gradient(
     ellipse at 50% 0%,
-    rgba(216, 77, 115, 0.04) 0%,
+    rgba(153, 69, 255, 0.04) 0%,
     transparent 65%
   );
   pointer-events: none;
@@ -161,7 +161,10 @@ h1 {
 }
 
 h1 .accent {
-  color: var(--purple);
+  background: linear-gradient(90deg, #9945FF 0%, #00C2FF 50%, #14F195 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .lead {
@@ -286,23 +289,23 @@ h1 .accent {
   cursor: not-allowed;
 }
 
-/* Mallow — primary CTA */
+/* Solana gradient — primary CTA */
 .btnGold {
-  background: linear-gradient(135deg, #D84D73 0%, #C994C7 100%);
-  color: #ffffff;
+  background: linear-gradient(90deg, #9945FF 0%, #00C2FF 55%, #14F195 100%);
+  color: #04070d;
   font-weight: 600;
   box-shadow:
-    0 0 0 1px rgba(216, 77, 115, 0.28),
-    0 6px 24px rgba(216, 77, 115, 0.28),
-    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    0 0 0 1px rgba(153, 69, 255, 0.22),
+    0 6px 24px rgba(20, 241, 149, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.10);
 }
 
 .btnGold:hover:not(:disabled) {
   transform: translateY(-1px);
   box-shadow:
-    0 0 0 1px rgba(216, 77, 115, 0.38),
-    0 10px 32px rgba(216, 77, 115, 0.36),
-    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    0 0 0 1px rgba(153, 69, 255, 0.32),
+    0 10px 32px rgba(20, 241, 149, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
 }
 
 .btnGold:active:not(:disabled) {
@@ -310,7 +313,7 @@ h1 .accent {
 }
 
 .btnGold:disabled {
-  background: rgba(216, 77, 115, 0.14);
+  background: rgba(153, 69, 255, 0.12);
   color: var(--text-faded);
   box-shadow: none;
 }
@@ -564,7 +567,7 @@ h1 .accent {
 .confirmModal {
   background: #050505;
   border: 1px solid var(--border);
-  border-top: 1px solid rgba(216, 77, 115, 0.18);
+  border-top: 1px solid rgba(153, 69, 255, 0.20);
   border-radius: 18px 18px 0 0;
   width: 100%;
   max-width: 420px;
@@ -573,14 +576,14 @@ h1 .accent {
   flex-direction: column;
   box-shadow:
     0 -24px 64px rgba(0, 0, 0, 0.75),
-    0 0 0 1px rgba(216, 77, 115, 0.05);
+    0 0 0 1px rgba(153, 69, 255, 0.05);
   animation: slideUp 0.26s cubic-bezier(0.32, 0.72, 0, 1);
 }
 
 @media (min-width: 600px) {
   .confirmModal {
     border-radius: 16px;
-    border-top: 1px solid rgba(216, 77, 115, 0.18);
+    border-top: 1px solid rgba(153, 69, 255, 0.20);
     animation: scaleIn 0.2s cubic-bezier(0.32, 0.72, 0, 1);
   }
 }
