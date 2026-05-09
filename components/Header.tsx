@@ -8,10 +8,16 @@ export function Header() {
           xmlns="http://www.w3.org/2000/svg"
           aria-hidden="true"
         >
+          <defs>
+            <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#9945FF" />
+              <stop offset="100%" stopColor="#14F195" />
+            </linearGradient>
+          </defs>
           <path
             d="M40 8 L66 18 L66 38 C66 54 54 66 40 72 C26 66 14 54 14 38 L14 18 Z"
             fill="none"
-            stroke="#D84D73"
+            stroke="url(#shieldGrad)"
             strokeWidth="2.5"
             strokeLinejoin="round"
           />
@@ -22,7 +28,7 @@ export function Header() {
             fontFamily="JetBrains Mono, monospace"
             fontSize="26"
             fontWeight="600"
-            fill="#D84D73"
+            fill="#9945FF"
           >
             S
           </text>
