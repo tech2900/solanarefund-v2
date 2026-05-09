@@ -1,6 +1,6 @@
 /* ============================================================
    SolanaRefund — Production Stylesheet
-   Brand: deep black · mauve/purple accent #9B5CFF
+   Brand: maximum black · Mallow accent #D84D73
    ============================================================ */
 
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
@@ -10,26 +10,26 @@
 }
 
 :root {
-  --bg:           #080808;
-  --bg-elevated:  #0e0e0e;
-  --bg-card:      #0b0b0b;
+  --bg:           #000000;
+  --bg-elevated:  #050505;
+  --bg-card:      #030303;
   --text:         #e8e8e6;
-  --text-muted:   #717171;
-  --text-faded:   #454545;
-  --border:       #1c1c1c;
-  --border-soft:  #131313;
+  --text-muted:   #7a7a7a;
+  --text-faded:   #484848;
+  --border:       #1a1a1a;
+  --border-soft:  #111111;
 
-  /* Gold — kept for fee breakdown accents */
+  /* Gold — kept for fee breakdown accents only */
   --gold:         #c8a96a;
   --gold-dim:     #a88a50;
   --gold-soft:    rgba(200, 169, 106, 0.06);
   --gold-border:  rgba(200, 169, 106, 0.18);
 
-  /* Mauve/purple — primary brand accent */
-  --purple:       #9B5CFF;
-  --purple-light: #B47CFF;
-  --purple-soft:  rgba(155, 92, 255, 0.08);
-  --purple-glow:  rgba(155, 92, 255, 0.28);
+  /* Mallow — primary brand accent */
+  --purple:       #D84D73;
+  --purple-light: #C994C7;
+  --purple-soft:  rgba(216, 77, 115, 0.08);
+  --purple-glow:  rgba(216, 77, 115, 0.28);
 
   /* Status colours */
   --green:        #22c55e;
@@ -56,7 +56,7 @@ body {
   overflow-x: hidden;
 }
 
-/* Subtle purple glow behind hero */
+/* Subtle Mallow glow behind hero */
 body::before {
   content: '';
   position: fixed;
@@ -67,7 +67,7 @@ body::before {
   height: 500px;
   background: radial-gradient(
     ellipse at 50% 0%,
-    rgba(155, 92, 255, 0.05) 0%,
+    rgba(216, 77, 115, 0.04) 0%,
     transparent 65%
   );
   pointer-events: none;
@@ -286,23 +286,23 @@ h1 .accent {
   cursor: not-allowed;
 }
 
-/* Mauve/purple — primary CTA */
+/* Mallow — primary CTA */
 .btnGold {
-  background: linear-gradient(135deg, #9B5CFF 0%, #B47CFF 100%);
+  background: linear-gradient(135deg, #D84D73 0%, #C994C7 100%);
   color: #ffffff;
   font-weight: 600;
   box-shadow:
-    0 0 0 1px rgba(155, 92, 255, 0.30),
-    0 6px 20px rgba(155, 92, 255, 0.28),
-    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    0 0 0 1px rgba(216, 77, 115, 0.28),
+    0 6px 24px rgba(216, 77, 115, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
 }
 
 .btnGold:hover:not(:disabled) {
   transform: translateY(-1px);
   box-shadow:
-    0 0 0 1px rgba(155, 92, 255, 0.40),
-    0 10px 32px rgba(155, 92, 255, 0.38),
-    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+    0 0 0 1px rgba(216, 77, 115, 0.38),
+    0 10px 32px rgba(216, 77, 115, 0.36),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
 .btnGold:active:not(:disabled) {
@@ -310,7 +310,7 @@ h1 .accent {
 }
 
 .btnGold:disabled {
-  background: rgba(155, 92, 255, 0.15);
+  background: rgba(216, 77, 115, 0.14);
   color: var(--text-faded);
   box-shadow: none;
 }
@@ -341,8 +341,8 @@ h1 .accent {
   display: inline-block;
   width: 14px;
   height: 14px;
-  border: 2px solid rgba(26, 17, 0, 0.25);
-  border-top-color: #1a1100;
+  border: 2px solid rgba(255, 255, 255, 0.22);
+  border-top-color: rgba(255, 255, 255, 0.88);
   border-radius: 50%;
   animation: spin 0.7s linear infinite;
   flex-shrink: 0;
@@ -562,9 +562,9 @@ h1 .accent {
 }
 
 .confirmModal {
-  background: #0d0d0d;
+  background: #050505;
   border: 1px solid var(--border);
-  border-top: 1px solid rgba(200, 169, 106, 0.12);
+  border-top: 1px solid rgba(216, 77, 115, 0.18);
   border-radius: 18px 18px 0 0;
   width: 100%;
   max-width: 420px;
@@ -572,15 +572,15 @@ h1 .accent {
   display: flex;
   flex-direction: column;
   box-shadow:
-    0 -24px 64px rgba(0, 0, 0, 0.6),
-    0 0 0 1px rgba(200, 169, 106, 0.04);
+    0 -24px 64px rgba(0, 0, 0, 0.75),
+    0 0 0 1px rgba(216, 77, 115, 0.05);
   animation: slideUp 0.26s cubic-bezier(0.32, 0.72, 0, 1);
 }
 
 @media (min-width: 600px) {
   .confirmModal {
     border-radius: 16px;
-    border-top: 1px solid rgba(200, 169, 106, 0.12);
+    border-top: 1px solid rgba(216, 77, 115, 0.18);
     animation: scaleIn 0.2s cubic-bezier(0.32, 0.72, 0, 1);
   }
 }
