@@ -16,7 +16,7 @@ export default function Page() {
 
           <p className="lead">
             Scan your Solana wallet for empty token accounts and reclaim
-            unused rent safely.
+            unused SOL safely.
           </p>
 
           <div className="trust">
@@ -34,31 +34,39 @@ export default function Page() {
         <section className="section" id="how">
           <div className="sectionLabel">How it works</div>
           <h2>Clean your wallet in one calm flow.</h2>
-          <div className="steps">
-            <div className="step">
-              <div className="stepNum">01</div>
-              <div className="stepName">Connect</div>
-              <div className="stepDesc">your wallet</div>
+          <p className="seoPara">
+            SolanaRefund helps you recover unused SOL that may be locked in
+            empty Solana token accounts. Connect your wallet, run a read-only
+            scan, and review eligible accounts before approving anything in
+            your wallet.
+          </p>
+          <div className="cards">
+            <div className="card">
+              <div className="cardLabel">Step 01</div>
+              <h3 className="cardTitle">Connect your Solana wallet</h3>
+              <p className="cardDesc">
+                Use Phantom, Solflare, Jupiter, or another compatible Solana
+                wallet. SolanaRefund only reads public wallet data during the
+                scan.
+              </p>
             </div>
-            <div className="step">
-              <div className="stepNum">02</div>
-              <div className="stepName">Scan</div>
-              <div className="stepDesc">unused accounts</div>
+            <div className="card">
+              <div className="cardLabel">Step 02</div>
+              <h3 className="cardTitle">Scan for empty token accounts</h3>
+              <p className="cardDesc">
+                Solana wallets can contain unused token accounts that still
+                hold small rent balances. The scan checks for eligible empty
+                accounts that may be closed to recover unused SOL.
+              </p>
             </div>
-            <div className="step">
-              <div className="stepNum">03</div>
-              <div className="stepName">Review</div>
-              <div className="stepDesc">the fee breakdown</div>
-            </div>
-            <div className="step">
-              <div className="stepNum">04</div>
-              <div className="stepName">Confirm</div>
-              <div className="stepDesc">in your wallet</div>
-            </div>
-            <div className="step">
-              <div className="stepNum">05</div>
-              <div className="stepName">Done</div>
-              <div className="stepDesc">SOL back in your wallet</div>
+            <div className="card">
+              <div className="cardLabel">Step 03</div>
+              <h3 className="cardTitle">Review and reclaim SOL</h3>
+              <p className="cardDesc">
+                You see the result first, then review the transaction inside
+                your wallet before signing. Nothing happens without your
+                explicit approval.
+              </p>
             </div>
           </div>
         </section>
@@ -99,6 +107,12 @@ export default function Page() {
         <section className="section" id="security">
           <div className="sectionLabel">Security</div>
           <h2>Security first. Always.</h2>
+          <p className="seoPara">
+            SolanaRefund is non-custodial. It never asks for your seed phrase
+            or private key. The scan is read-only, and any Solana wallet
+            cleanup or SOL recovery action must be reviewed and approved
+            directly inside your wallet.
+          </p>
           <div className="cards">
             <div className="card">
               <div className="cardLabel">No keys</div>
@@ -117,11 +131,11 @@ export default function Page() {
               </p>
             </div>
             <div className="card">
-              <div className="cardLabel">Empty only</div>
-              <h3 className="cardTitle">Zero balance accounts</h3>
+              <div className="cardLabel">Read-only scan</div>
+              <h3 className="cardTitle">No signing until you decide</h3>
               <p className="cardDesc">
-                Only accounts with a zero token balance are eligible. Accounts
-                with tokens are never touched.
+                The scan reads public wallet data only. No transaction is
+                prepared or signed until you choose to proceed.
               </p>
             </div>
           </div>
@@ -135,43 +149,93 @@ export default function Page() {
           <details open>
             <summary>What is SolanaRefund?</summary>
             <p>
-              SolanaRefund helps you scan your Solana wallet for empty token
-              accounts that may hold unused SOL from rent deposits, then lets
-              you review and reclaim eligible SOL safely. No sign-up required.
+              SolanaRefund is a Solana wallet cleanup tool that helps you scan
+              for empty token accounts and recover unused SOL from eligible
+              accounts. It is designed for users who want a simple way to
+              reclaim SOL safely.
             </p>
           </details>
           <details>
-            <summary>How does SolanaRefund recover SOL?</summary>
+            <summary>How can I recover SOL from my Solana wallet?</summary>
             <p>
-              Solana wallets can accumulate empty token accounts that still
-              hold small rent balances (~0.002 SOL each). SolanaRefund checks
-              for eligible empty accounts and prepares a transaction for you to
-              review before anything is signed.
+              Connect your Solana wallet, run a read-only scan, and
+              SolanaRefund will check for eligible empty token accounts. If
+              recoverable SOL is found, you can review the details and approve
+              the transaction inside your wallet.
+            </p>
+          </details>
+          <details>
+            <summary>What is Solana rent recovery?</summary>
+            <p>
+              Some Solana token accounts hold small rent balances. When an
+              eligible empty token account is closed, that rent can be returned
+              to the wallet. SolanaRefund helps identify these accounts and
+              prepare a reviewable transaction.
+            </p>
+          </details>
+          <details>
+            <summary>What are empty token accounts?</summary>
+            <p>
+              Empty token accounts are Solana token accounts with no token
+              balance. Some of them may still hold rent deposits that can be
+              reclaimed when the account is safely closed.
             </p>
           </details>
           <details>
             <summary>Is SolanaRefund non-custodial?</summary>
             <p>
               Yes. SolanaRefund does not ask for your seed phrase or private
-              key. You connect your wallet, review the result, and approve any
-              action directly inside your wallet. Nothing is signed without
-              your explicit confirmation.
+              key. You connect your wallet, scan public wallet data, and
+              approve any action directly inside your wallet.
             </p>
           </details>
           <details>
-            <summary>Which wallets does SolanaRefund support?</summary>
+            <summary>
+              Does SolanaRefund work with Phantom, Solflare, and Jupiter?
+            </summary>
             <p>
-              SolanaRefund works with popular Solana wallets such as Phantom,
-              Solflare, Jupiter, and other compatible Solana wallet browsers.
+              Yes. SolanaRefund is designed to work with popular Solana wallets
+              and wallet browsers, including Phantom, Solflare, Jupiter, and
+              other compatible Solana wallet adapters.
             </p>
           </details>
           <details>
-            <summary>What does "Wallet looks clean" mean?</summary>
+            <summary>What does &ldquo;Wallet looks clean&rdquo; mean?</summary>
             <p>
               It means the scan did not find eligible empty token accounts with
-              reclaimable SOL in the connected wallet. Your wallet cleanup is
-              already complete, or this wallet has no unused token accounts to
-              close.
+              reclaimable SOL in the connected wallet.
+            </p>
+          </details>
+          <details>
+            <summary>
+              Can SolanaRefund recover crypto from every blockchain?
+            </summary>
+            <p>
+              No. SolanaRefund is focused on Solana. It is designed to help
+              users recover unused SOL from eligible Solana token accounts, not
+              recover assets from unrelated blockchains.
+            </p>
+          </details>
+          <details>
+            <summary>
+              What is the safest way to close unused Solana token accounts?
+            </summary>
+            <p>
+              The safest approach is to use a non-custodial tool that scans
+              first, shows eligible empty accounts, and lets you review the
+              transaction inside your wallet before signing. SolanaRefund
+              follows this flow.
+            </p>
+          </details>
+          <details>
+            <summary>
+              Why do people search for &ldquo;recover SOL&rdquo; or
+              &ldquo;Solana refund&rdquo;?
+            </summary>
+            <p>
+              Many Solana users have small amounts of SOL locked in unused
+              token accounts. SolanaRefund helps detect eligible accounts so
+              users can reclaim unused SOL safely.
             </p>
           </details>
         </section>
