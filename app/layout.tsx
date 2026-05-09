@@ -14,20 +14,29 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL("https://solanarefund.xyz"),
   title: {
-    default: "SolanaRefund — Get Your Free SOL Back",
+    default: "SolanaRefund — Recover SOL From Empty Solana Token Accounts",
     template: "%s | SolanaRefund",
   },
   description:
-    "Recover unused SOL from empty Solana token accounts. Connect your wallet, scan safely, and reclaim rent in seconds.",
+    "Recover unused SOL from empty Solana token accounts. Connect your Solana wallet, scan safely, review eligible accounts, and reclaim SOL in seconds.",
   applicationName: "SolanaRefund",
   authors: [{ name: "SolanaRefund" }],
   keywords: [
     "Solana refund",
     "recover SOL",
     "reclaim SOL",
-    "close token accounts",
-    "Solana rent",
-    "wallet cleanup",
+    "recover Solana",
+    "Solana rent recovery",
+    "Solana account rent recovery",
+    "close empty token accounts",
+    "close unused token accounts",
+    "recover unused SOL",
+    "reclaim unused SOL",
+    "Solana wallet cleanup",
+    "empty token accounts",
+    "unused Solana token accounts",
+    "free SOL back",
+    "sol recover",
   ],
   referrer: "origin-when-cross-origin",
   creator: "SolanaRefund",
@@ -53,9 +62,9 @@ export const metadata: Metadata = {
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
   },
   openGraph: {
-    title: "SolanaRefund — Get Your Free SOL Back",
+    title: "SolanaRefund — Recover SOL From Empty Solana Token Accounts",
     description:
-      "Recover unused SOL from empty Solana token accounts. Connect your wallet, scan safely, and reclaim rent in seconds.",
+      "Recover unused SOL from empty Solana token accounts. Connect your Solana wallet, scan safely, review eligible accounts, and reclaim SOL in seconds.",
     url: "https://solanarefund.xyz/",
     siteName: "SolanaRefund",
     type: "website",
@@ -72,9 +81,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "SolanaRefund — Get Your Free SOL Back",
+    title: "SolanaRefund — Recover SOL From Empty Solana Token Accounts",
     description:
-      "Recover unused SOL from empty Solana token accounts. Connect your wallet, scan safely, and reclaim rent in seconds.",
+      "Recover unused SOL from empty Solana token accounts. Connect your Solana wallet, scan safely, review eligible accounts, and reclaim SOL in seconds.",
     images: ["/og-image.png"],
     creator: "@SolanaRefundXYZ",
   },
