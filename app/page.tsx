@@ -139,6 +139,18 @@ export default function Page() {
               </p>
             </div>
           </div>
+          <p className="seoPara" style={{ marginTop: "28px", marginBottom: 0 }}>
+            Learn more about empty Solana token accounts and unused SOL recovery
+            in our Medium guide.{" "}
+            <a
+              href="https://medium.com/@SolanaRefund/how-to-recover-unused-sol-from-empty-solana-token-accounts-4c5a1c7e978b"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inlineLink"
+            >
+              Read the guide
+            </a>
+          </p>
         </section>
 
         {/* FAQ */}
