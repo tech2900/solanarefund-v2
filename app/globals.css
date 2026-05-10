@@ -926,6 +926,24 @@ details p {
   line-height: 1.65;
 }
 
+.footerLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 20px;
+  margin-bottom: 20px;
+}
+
+.footerLink {
+  font-size: 11px;
+  color: var(--text-muted);
+  transition: color 0.15s;
+  text-decoration: none;
+}
+
+.footerLink:hover {
+  color: var(--text);
+}
+
 .footerMeta {
   font-size: 11px;
   color: var(--text-faded);
@@ -938,6 +956,16 @@ details p {
 }
 
 .footerMeta a:hover {
+  color: var(--text);
+}
+
+.inlineLink {
+  color: var(--purple-light);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.inlineLink:hover {
   color: var(--text);
 }
 
