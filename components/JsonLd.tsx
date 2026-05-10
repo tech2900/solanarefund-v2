@@ -33,7 +33,11 @@ export function JsonLd() {
       "height": 512
     },
     "email": "contact@solanarefund.xyz",
-    "description": "SolanaRefund is an independent tool that helps users recover SOL locked as rent inside unused Solana token accounts."
+    "description": "SolanaRefund is an independent tool that helps users recover SOL locked as rent inside unused Solana token accounts.",
+    "sameAs": [
+      "https://x.com/solanarefundxyz",
+      "https://medium.com/@SolanaRefund"
+    ]
   };
 
   // Schema 3: WebApplication — describes the tool itself
